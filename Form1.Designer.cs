@@ -35,7 +35,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCheckKey = new System.Windows.Forms.Button();
-            this.btnGenKey = new System.Windows.Forms.Button();
+            this.btnNewKey = new System.Windows.Forms.Button();
             this.btnDecrypt = new System.Windows.Forms.Button();
             this.btnEncrypt = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -122,7 +122,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btnCheckKey);
-            this.groupBox3.Controls.Add(this.btnGenKey);
+            this.groupBox3.Controls.Add(this.btnNewKey);
             this.groupBox3.Controls.Add(this.btnDecrypt);
             this.groupBox3.Controls.Add(this.btnEncrypt);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -143,15 +143,15 @@
             this.btnCheckKey.UseVisualStyleBackColor = true;
             this.btnCheckKey.Click += new System.EventHandler(this.btnCheckKey_Click);
             // 
-            // btnGenKey
+            // btnNewKey
             // 
-            this.btnGenKey.Location = new System.Drawing.Point(87, 16);
-            this.btnGenKey.Name = "btnGenKey";
-            this.btnGenKey.Size = new System.Drawing.Size(75, 23);
-            this.btnGenKey.TabIndex = 2;
-            this.btnGenKey.Text = "&New key";
-            this.btnGenKey.UseVisualStyleBackColor = true;
-            this.btnGenKey.Click += new System.EventHandler(this.btnGenKey_Click);
+            this.btnNewKey.Location = new System.Drawing.Point(87, 16);
+            this.btnNewKey.Name = "btnNewKey";
+            this.btnNewKey.Size = new System.Drawing.Size(75, 23);
+            this.btnNewKey.TabIndex = 2;
+            this.btnNewKey.Text = "&New key";
+            this.btnNewKey.UseVisualStyleBackColor = true;
+            this.btnNewKey.Click += new System.EventHandler(this.btnNewKey_Click);
             // 
             // btnDecrypt
             // 
@@ -338,7 +338,7 @@
         private System.Windows.Forms.RadioButton rbtnKeySelect2;
         private System.Windows.Forms.Button btnEncrypt;
         private System.Windows.Forms.Button btnDecrypt;
-        private System.Windows.Forms.Button btnGenKey;
+        private System.Windows.Forms.Button btnNewKey;
         private System.Windows.Forms.Button btnCheckKey;
     }
 }

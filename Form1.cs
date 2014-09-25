@@ -13,6 +13,10 @@ namespace Hill_Cipher
         public Form1()
         {
             InitializeComponent();
+            //numKey00.Value = 10;
+            //numKey01.Value = 3;
+            //numKey10.Value = 25;
+            //numKey11.Value = 5;
         }
 
         private void updateKeyNum()
@@ -24,25 +28,28 @@ namespace Hill_Cipher
             txtKey.Text = key1.ToString() + key2.ToString() + key3.ToString() + key4.ToString();
         }
 
+        private static string removeNonAlphaChars(string text)
+        {
+            string re = "";
+            for (int i = 0; i < text.Length; i++)
+            {
+                char disChar = text[i];
+                if ((int)disChar <= (int)'Z' && ((int)disChar >= (int)'A'))
+                {
+                    re += disChar;
+                }
+            }
+            return re;
+        }
+
         private void updateKeyString()
         {
             // remove non alpha chars
-            string _key = txtKey.Text.ToUpper();
-            string key = "";
-            for (int i = 0; i < _key.Length; i++)
-            {
-                char disChar = _key[i];
-                if ((int)disChar <= (int)'Z' && ((int)disChar >= (int)'A'))
-                {
-                    key += disChar;
-                }
-            }
+            string key = removeNonAlphaChars(txtKey.Text.ToUpper());
             // append A if key is not long enough
             while (key.Length < 4)
-            {
                 key += "A";
-            }
-            // trim key to 4
+            // trim key to 4 chars
             key = key.Substring(0, 4);
             // write back values to txtKey and numKeyxy
             txtKey.Text = key;
@@ -52,25 +59,30 @@ namespace Hill_Cipher
             numKey11.Value = (int)key[3] - 65;
         }
 
-        private void generateNewKey()
+        private void getNewKey()
         {
-            // TODO: find a convinient way to generate a good an usable key
+            Matrix newKey = Matrix.generateNewKey(); // generate a random and usable key
+            numKey00.Value = newKey[0, 0];
+            numKey01.Value = newKey[0, 1];
+            numKey10.Value = newKey[1, 0];
+            numKey11.Value = newKey[1, 1];
+        }
+
+        private Matrix getCurrentKey()
+        {
+            Matrix key = new Matrix(2, 2);
+            key[0, 0] = (int)numKey00.Value;
+            key[0, 1] = (int)numKey01.Value;
+            key[1, 0] = (int)numKey10.Value;
+            key[1, 1] = (int)numKey11.Value;
+            return key;
         }
 
         // Reference encrypter, decrypter: http://practicalcryptography.com/ciphers/hill-cipher/
         private void encryptText()
         {
             // remove non alpha chars
-            string _plainText = txtPlainText.Text.ToUpper();
-            string plainText = "";
-            for (int i = 0; i < _plainText.Length; i++)
-            {
-                char disChar = _plainText[i];
-                if ((int)disChar <= (int)'Z' && ((int)disChar >= (int)'A'))
-                {
-                    plainText += disChar;
-                }
-            }
+            string plainText = removeNonAlphaChars(txtPlainText.Text.ToUpper());
 
             // some sanity checks
             if (plainText.Length < 1)
@@ -81,17 +93,20 @@ namespace Hill_Cipher
             }
             if (plainText.Length % 2 != 0)
             {
-                MessageBox.Show("Text length is not divisible by 2. Gonna add a character to it!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Message length is not divisible by 2. Gonna insert one more character!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            // get encryption key
+            Matrix key = getCurrentKey();
+            // MessageBox.Show(key.String2Show());
 
             // encrypt it
+            string cipherText = encryptText(plainText, key);
+            txtCipherText.Text = cipherText;
+        }
+
+        private static string encryptText(string plainText, Matrix key)
+        {
             string cipherText = "";
-            Matrix key = new Matrix(2, 2);
-            key[0, 0] = (int)numKey00.Value;
-            key[0, 1] = (int)numKey01.Value;
-            key[1, 0] = (int)numKey10.Value;
-            key[1, 1] = (int)numKey11.Value;
-            // MessageBox.Show(key.String2Show());
             for (int i = 0; i < plainText.Length / 2; i++)
             {
                 Matrix msgVector = new Matrix(2, 1);
@@ -101,44 +116,39 @@ namespace Hill_Cipher
                 Matrix cipherCodes = Matrix.Multiply(key, msgVector);
                 cipherText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString();
             }
-            txtCipherText.Text = cipherText;
+            return cipherText;
         }
 
         private void decryptText()
         {
             // remove non alpha chars
-            string _cipherText = txtCipherText.Text.ToUpper();
-            string cipherText = "";
-            for (int i = 0; i < _cipherText.Length; i++)
-            {
-                char disChar = _cipherText[i];
-                if ((int)disChar <= (int)'Z' && ((int)disChar >= (int)'A'))
-                {
-                    cipherText += disChar;
-                }
-            }
+            string cipherText = removeNonAlphaChars(txtCipherText.Text.ToUpper());
 
             // some sanity checks
             if (cipherText.Length < 1)
             {
-                MessageBox.Show("Please enter a message to decrypt! Only A - Z count!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPlainText.Text = "AMESSAGE";
+                MessageBox.Show("Please enter a message to decrypt! Only A - Z count!", "Decrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCipherText.Text = "AMESSAGE";
                 return;
             }
             if (cipherText.Length % 2 != 0)
             {
-                MessageBox.Show("Text length is not divisible by 2. Wrong algorithm?", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Message length is not divisible by 2. Wrong algorithm?", "Decrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+            // get the encryption key
+            Matrix key = getCurrentKey();
 
             // decrypt it
+            string plainText = decryptText(cipherText, key);
+            txtPlainText.Text = plainText;
+        }
+
+        private static string decryptText(string cipherText, Matrix _key)
+        {
             string plainText = "";
-            Matrix key = new Matrix(2, 2);
-            key[0, 0] = (int)numKey00.Value;
-            key[0, 1] = (int)numKey01.Value;
-            key[1, 0] = (int)numKey10.Value;
-            key[1, 1] = (int)numKey11.Value;
             // we're decrypting, so inverse the key
-            key = Matrix.Inverse2x2Matrix(key);
+            Matrix key = Matrix.Inverse2x2Matrix(_key);
             // MessageBox.Show(key.String2Show());
             for (int i = 0; i < cipherText.Length / 2; i++)
             {
@@ -149,7 +159,7 @@ namespace Hill_Cipher
                 Matrix cipherCodes = Matrix.Multiply(key, msgVector);
                 plainText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString();
             }
-            txtPlainText.Text = plainText;
+            return plainText;
         }
 
         private void numKey00_ValueChanged(object sender, EventArgs e)
@@ -199,8 +209,8 @@ namespace Hill_Cipher
 
         private void btnCheckKey_Click(object sender, EventArgs e)
         {
-            int det = (int)(numKey00.Value * numKey11.Value - numKey01.Value * numKey10.Value);
-            if (det != 0 && det % 2 != 0 && det % 13 != 0)
+            Matrix key = getCurrentKey();
+            if (key.isUsable())
             {
                 MessageBox.Show("This key is usable!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -220,9 +230,9 @@ namespace Hill_Cipher
             decryptText();
         }
 
-        private void btnGenKey_Click(object sender, EventArgs e)
+        private void btnNewKey_Click(object sender, EventArgs e)
         {
-            generateNewKey();
+            getNewKey();
         }
     }
 }

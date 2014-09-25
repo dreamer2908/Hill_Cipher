@@ -15,6 +15,8 @@ namespace Hill_Cipher
 
         public int Height { get { return _matrix.GetLength(0); } }
         public int Width { get { return _matrix.GetLength(1); } }
+        public int dim1 { get { return _matrix.GetLength(0); } }
+        public int dim2 { get { return _matrix.GetLength(1); } }
 
         public int this[int x, int y]
         {
@@ -28,13 +30,29 @@ namespace Hill_Cipher
             return (det != 0 && det % 2 != 0 && det % 13 != 0);
         }
 
+        static Random _r = new Random(); // random number generator had better be static
+
+        public static Matrix generateNewKey()
+        {
+            // get new random numbers until got a usable key
+            Matrix newKey = new Matrix(2, 2);
+            while (!newKey.isUsable())
+            {
+                newKey[0, 0] = _r.Next(0, 25);
+                newKey[0, 1] = _r.Next(0, 25);
+                newKey[1, 0] = _r.Next(0, 25);
+                newKey[1, 1] = _r.Next(0, 25);
+            }
+            return newKey;
+        }
+
         public static int modInverse(int _a, int m)
         {
             // modular multiplicative inverse
             int a = _a % m;
             for (int x = 0; x < m; x++)
             {
-                if ((a * x) % m == 1) // according to the defination
+                if (modular((a * x), m) == 1) // according to the defination
                 {
                     return x;
                 }
@@ -87,31 +105,21 @@ namespace Hill_Cipher
             return re;
         }
 
-        // The way C# modular number, though not wrong, is unsuitable for our purpose
+        // The way C# modular number, while not wrong, is unsuitable for our purpose
         // Modular must be always non-negative
+        private static int modular(int a, int m)
+        {
+            int re = a % m;
+            if (re < 0)
+                re = m + re;
+            return re;
+        }
+
         public void Modular(int m)
         {
             for (int i = 0; i < this.Height; i++)
                 for (int j = 0; j < this.Width; j++)
-                {
-                    this[i, j] %= m;
-                    if (this[i, j] < 0)
-                        this[i, j] = m + this[i, j];
-                }
-        }
-
-        public static Matrix MultipleBy(Matrix m, int n)
-        {            
-            Matrix re = new Matrix(m.Height, m.Width);
-
-            for (int i = 0; i < re.Height; i++)
-            {
-                for (int j = 0; j < re.Width; j++)
-                {
-                    re[i, j] = n * m[i, j];
-                }
-            }
-            return re;
+                    this[i, j] = modular(this[i, j], m);
         }
 
         public string String2Show()
