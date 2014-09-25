@@ -29,8 +29,9 @@ namespace Hill_Cipher
             txtKey.Text = key1.ToString() + key2.ToString() + key3.ToString() + key4.ToString();
         }
 
-        private static string removeNonAlphaChars(string text)
+        public static string removeNonAlphaChars(string _text)
         {
+            string text = _text.ToUpper();
             string re = "";
             for (int i = 0; i < text.Length; i++)
             {
@@ -101,23 +102,8 @@ namespace Hill_Cipher
             // MessageBox.Show(key.String2Show());
 
             // encrypt it
-            string cipherText = encryptText(plainText, key);
+            string cipherText = HillCipher2x2.encryptText(plainText, key);
             txtCipherText.Text = cipherText;
-        }
-
-        private static string encryptText(string plainText, Matrix key)
-        {
-            string cipherText = "";
-            for (int i = 0; i < plainText.Length / 2; i++)
-            {
-                Matrix msgVector = new Matrix(2, 1);
-                msgVector[0, 0] = (int)plainText[i * 2] - 65;
-                msgVector[1, 0] = (int)plainText[i * 2 + 1] - 65;
-
-                Matrix cipherCodes = Matrix.Multiply(key, msgVector);
-                cipherText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString();
-            }
-            return cipherText;
         }
 
         private void decryptText()
@@ -141,26 +127,8 @@ namespace Hill_Cipher
             Matrix key = getCurrentKey();
 
             // decrypt it
-            string plainText = decryptText(cipherText, key);
+            string plainText = HillCipher2x2.decryptText(cipherText, key);
             txtPlainText.Text = plainText;
-        }
-
-        private static string decryptText(string cipherText, Matrix _key)
-        {
-            string plainText = "";
-            // we're decrypting, so inverse the key
-            Matrix key = Matrix.Inverse2x2Matrix(_key);
-            // MessageBox.Show(key.String2Show());
-            for (int i = 0; i < cipherText.Length / 2; i++)
-            {
-                Matrix msgVector = new Matrix(2, 1);
-                msgVector[0, 0] = (int)cipherText[i * 2] - 65;
-                msgVector[1, 0] = (int)cipherText[i * 2 + 1] - 65;
-
-                Matrix cipherCodes = Matrix.Multiply(key, msgVector);
-                plainText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString();
-            }
-            return plainText;
         }
 
         private void numKey00_ValueChanged(object sender, EventArgs e)
