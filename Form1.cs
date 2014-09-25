@@ -46,10 +46,10 @@ namespace Hill_Cipher
             key = key.Substring(0, 4);
             // write back values to txtKey and numKeyxy
             txtKey.Text = key;
-            numKey00.Value = (int)key[0] - (int)'A';
-            numKey01.Value = (int)key[1] - (int)'A';
-            numKey10.Value = (int)key[2] - (int)'A';
-            numKey11.Value = (int)key[3] - (int)'A';
+            numKey00.Value = (int)key[0] - 65;
+            numKey01.Value = (int)key[1] - 65;
+            numKey10.Value = (int)key[2] - 65;
+            numKey11.Value = (int)key[3] - 65;
         }
 
         private void generateNewKey()
@@ -57,9 +57,9 @@ namespace Hill_Cipher
             // TODO: find a convinient way to generate a good an usable key
         }
 
+        // Reference encrypter, decrypter: http://practicalcryptography.com/ciphers/hill-cipher/
         private void encryptText()
         {
-            // TODO: transfer it from python script to here
             // remove non alpha chars
             string _plainText = txtPlainText.Text.ToUpper();
             string plainText = "";
@@ -75,13 +75,13 @@ namespace Hill_Cipher
             // some sanity checks
             if (plainText.Length < 1)
             {
-                MessageBox.Show("Please enter some text to encrypt! Only A - Z count!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPlainText.Text = "Text";
+                MessageBox.Show("Please enter a message to encrypt! Only A - Z count!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPlainText.Text = "AMESSAGE";
                 return;
             }
             if (plainText.Length % 2 != 0)
             {
-                MessageBox.Show("Text length is odd. Gonna add a character to it!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Text length is not divisible by 2. Gonna add a character to it!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             // encrypt it
@@ -91,26 +91,65 @@ namespace Hill_Cipher
             key[0, 1] = (int)numKey01.Value;
             key[1, 0] = (int)numKey10.Value;
             key[1, 1] = (int)numKey11.Value;
-            MessageBox.Show(key.String2Show());
+            // MessageBox.Show(key.String2Show());
             for (int i = 0; i < plainText.Length / 2; i++)
             {
-                Matrix msgVector = new Matrix(1, 2);
-                msgVector[0, 0] = (int)plainText[i * 2] - (int)'A';
-                msgVector[0, 1] = (int)plainText[i * 2 + 1] - (int)'A';
-                MessageBox.Show(msgVector.String2Show2());
+                Matrix msgVector = new Matrix(2, 1);
+                msgVector[0, 0] = (int)plainText[i * 2] - 65;
+                msgVector[1, 0] = (int)plainText[i * 2 + 1] - 65;
 
-                Matrix cipherCodes = Matrix.Multiplication(msgVector, key);
-                MessageBox.Show(cipherCodes.String2Show2());
-                cipherText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[0, 1] + (int)'A')).ToString();
-                //cipherText += ((cipherCodes[0, 0] + 65)).ToString() + ((cipherCodes[0, 1] + (int)'A')).ToString();
+                Matrix cipherCodes = Matrix.Multiply(key, msgVector);
+                cipherText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString();
             }
-
             txtCipherText.Text = cipherText;
         }
 
         private void decryptText()
         {
-            // TODO: transfer it from python script to here
+            // remove non alpha chars
+            string _cipherText = txtCipherText.Text.ToUpper();
+            string cipherText = "";
+            for (int i = 0; i < _cipherText.Length; i++)
+            {
+                char disChar = _cipherText[i];
+                if ((int)disChar <= (int)'Z' && ((int)disChar >= (int)'A'))
+                {
+                    cipherText += disChar;
+                }
+            }
+
+            // some sanity checks
+            if (cipherText.Length < 1)
+            {
+                MessageBox.Show("Please enter a message to decrypt! Only A - Z count!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPlainText.Text = "AMESSAGE";
+                return;
+            }
+            if (cipherText.Length % 2 != 0)
+            {
+                MessageBox.Show("Text length is not divisible by 2. Wrong algorithm?", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            // decrypt it
+            string plainText = "";
+            Matrix key = new Matrix(2, 2);
+            key[0, 0] = (int)numKey00.Value;
+            key[0, 1] = (int)numKey01.Value;
+            key[1, 0] = (int)numKey10.Value;
+            key[1, 1] = (int)numKey11.Value;
+            // we're decrypting, so inverse the key
+            key = Matrix.Inverse2x2Matrix(key);
+            // MessageBox.Show(key.String2Show());
+            for (int i = 0; i < cipherText.Length / 2; i++)
+            {
+                Matrix msgVector = new Matrix(2, 1);
+                msgVector[0, 0] = (int)cipherText[i * 2] - 65;
+                msgVector[1, 0] = (int)cipherText[i * 2 + 1] - 65;
+
+                Matrix cipherCodes = Matrix.Multiply(key, msgVector);
+                plainText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString();
+            }
+            txtPlainText.Text = plainText;
         }
 
         private void numKey00_ValueChanged(object sender, EventArgs e)

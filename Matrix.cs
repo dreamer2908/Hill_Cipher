@@ -28,9 +28,9 @@ namespace Hill_Cipher
             return (det != 0 && det % 2 != 0 && det % 13 != 0);
         }
 
-        // modular multiplicative inverse
         public static int modInverse(int _a, int m)
         {
+            // modular multiplicative inverse
             int a = _a % m;
             for (int x = 0; x < m; x++)
             {
@@ -42,73 +42,90 @@ namespace Hill_Cipher
             return -1; // couldn't find its modular multiplicative inverse
         }
 
-        public static Matrix Multiplication(Matrix m1, Matrix m2)
+        public static Matrix Multiply(Matrix m1, Matrix m2)
         {
-            Matrix result = new Matrix(m1.Height, m2.Width);
+            if (m1.Width != m2.Height) // wrong size
+                return null; 
 
-            for (int i = 0; i < result.Height; i++)
+            Matrix re = new Matrix(m1.Height, m2.Width);
+            for (int i = 0; i < re.Height; i++)
             {
-                for (int j = 0; j < result.Width; j++)
+                for (int j = 0; j < re.Width; j++)
                 {
-                    result[i, j] = 0;
+                    re[i, j] = 0;
                     for (int k = 0; k < m1.Width; k++)
                     {
-                        result[i, j] += m1[i, k] * m2[k, j];
+                        re[i, j] += m1[i, k] * m2[k, j];
                     }
-                    // resultMatrix[i, j] = resultMatrix[i, j] % 26;
                 }
             }
-            return result;
+            //System.Windows.Forms.MessageBox.Show(re.String2Show());
+            re.Modular(26);
+            //System.Windows.Forms.MessageBox.Show(re.String2Show());
+            return re;
         }
 
         public static Matrix Inverse2x2Matrix(Matrix m)
         {
             // see Cryptography and Network Security Principles and Practice, 5th Edition, page 46
 
-            if (!(m.Height == 2 && m.Width == 2))
-                return null; // return nothing if wrong size
+            if (!(m.Height == 2 && m.Width == 2)) // wrong size
+                return null; 
 
-            Matrix result = new Matrix(2, 2);
+            Matrix re = new Matrix(2, 2);
 
             int det = m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0];
             int miDet = (int)modInverse(det, 26);
+            // System.Windows.Forms.MessageBox.Show("det = " + det.ToString() + " miDet = " + miDet.ToString()); 
 
-            result[0, 0] = (m[1, 1] * miDet) % 26;
-            result[0, 1] = (-m[0, 1] * miDet) % 26;
-            result[1, 0] = (-m[1, 0] * miDet) % 26;
-            result[1, 1] = (m[0, 0] * miDet) % 26;
+            re[0, 0] = (m[1, 1] * miDet);
+            re[0, 1] = (-m[0, 1] * miDet);
+            re[1, 0] = (-m[1, 0] * miDet);
+            re[1, 1] = (m[0, 0] * miDet);
+            re.Modular(26);
 
-            return result;
+            return re;
+        }
+
+        // The way C# modular number, though not wrong, is unsuitable for our purpose
+        // Modular must be always non-negative
+        public void Modular(int m)
+        {
+            for (int i = 0; i < this.Height; i++)
+                for (int j = 0; j < this.Width; j++)
+                {
+                    this[i, j] %= m;
+                    if (this[i, j] < 0)
+                        this[i, j] = m + this[i, j];
+                }
         }
 
         public static Matrix MultipleBy(Matrix m, int n)
         {            
-            Matrix result = new Matrix(m.Height, m.Width);
+            Matrix re = new Matrix(m.Height, m.Width);
 
-            for (int i = 0; i < result.Height; i++)
+            for (int i = 0; i < re.Height; i++)
             {
-                for (int j = 0; j < result.Width; j++)
+                for (int j = 0; j < re.Width; j++)
                 {
-                    result[i, j] = n * m[i, j];
+                    re[i, j] = n * m[i, j];
                 }
             }
-            return result;
+            return re;
         }
 
         public string String2Show()
         {
-            // string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]) + " " + Format(this[0, 2]) + "\n" + Format(this[1, 0]) + " " + Format(this[1, 1]) + " " + Format(this[1, 2]) + "\n" + Format(this[2, 0]) + " " + Format(this[2, 1]) + " " + Format(this[2, 2]);
-            string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]) + " \n" + Format(this[1, 0]) + " " + Format(this[1, 1]);
-
-            return tmp;
-        }
-
-        public string String2Show2()
-        {
-            // string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]) + " " + Format(this[0, 2]) + "\n" + Format(this[1, 0]) + " " + Format(this[1, 1]) + " " + Format(this[1, 2]) + "\n" + Format(this[2, 0]) + " " + Format(this[2, 1]) + " " + Format(this[2, 2]);
-            string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]);
-
-            return tmp;
+            String re = "";
+            for (int i = 0; i < this.Height; i++)
+            {
+                for (int j = 0; j < this.Width; j++)
+                {
+                    re += Format(this[i, j]) + " ";
+                }
+                re += "\n";
+            }
+            return re;
         }
 
         private string Format(int n)
