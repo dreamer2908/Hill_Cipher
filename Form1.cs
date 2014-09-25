@@ -27,11 +27,11 @@ namespace Hill_Cipher
         private void updateKeyString()
         {
             // remove non alpha chars
-            string newKey = txtKey.Text.ToUpper();
+            string _key = txtKey.Text.ToUpper();
             string key = "";
-            for (int i = 0; i < txtKey.Text.ToUpper().Length; i++)
+            for (int i = 0; i < _key.Length; i++)
             {
-                char disChar = newKey[i];
+                char disChar = _key[i];
                 if ((int)disChar <= (int)'Z' && ((int)disChar >= (int)'A'))
                 {
                     key += disChar;
@@ -60,6 +60,52 @@ namespace Hill_Cipher
         private void encryptText()
         {
             // TODO: transfer it from python script to here
+            // remove non alpha chars
+            string _plainText = txtPlainText.Text.ToUpper();
+            string plainText = "";
+            for (int i = 0; i < _plainText.Length; i++)
+            {
+                char disChar = _plainText[i];
+                if ((int)disChar <= (int)'Z' && ((int)disChar >= (int)'A'))
+                {
+                    plainText += disChar;
+                }
+            }
+
+            // some sanity checks
+            if (plainText.Length < 1)
+            {
+                MessageBox.Show("Please enter some text to encrypt! Only A - Z count!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPlainText.Text = "Text";
+                return;
+            }
+            if (plainText.Length % 2 != 0)
+            {
+                MessageBox.Show("Text length is odd. Gonna add a character to it!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            // encrypt it
+            string cipherText = "";
+            Matrix key = new Matrix(2, 2);
+            key[0, 0] = (int)numKey00.Value;
+            key[0, 1] = (int)numKey01.Value;
+            key[1, 0] = (int)numKey10.Value;
+            key[1, 1] = (int)numKey11.Value;
+            MessageBox.Show(key.String2Show());
+            for (int i = 0; i < plainText.Length / 2; i++)
+            {
+                Matrix msgVector = new Matrix(1, 2);
+                msgVector[0, 0] = (int)plainText[i * 2] - (int)'A';
+                msgVector[0, 1] = (int)plainText[i * 2 + 1] - (int)'A';
+                MessageBox.Show(msgVector.String2Show2());
+
+                Matrix cipherCodes = Matrix.Multiplication(msgVector, key);
+                MessageBox.Show(cipherCodes.String2Show2());
+                cipherText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[0, 1] + (int)'A')).ToString();
+                //cipherText += ((cipherCodes[0, 0] + 65)).ToString() + ((cipherCodes[0, 1] + (int)'A')).ToString();
+            }
+
+            txtCipherText.Text = cipherText;
         }
 
         private void decryptText()

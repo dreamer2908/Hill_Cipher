@@ -65,6 +65,7 @@
             this.txtPlainText.Name = "txtPlainText";
             this.txtPlainText.Size = new System.Drawing.Size(430, 89);
             this.txtPlainText.TabIndex = 0;
+            this.txtPlainText.Text = "WEHAVENOTYETDISCUSSEDTWOCOMPLICATIONSTHATEXISTINPICKINGTHEENCRYPTINGMATRIX";
             // 
             // tableLayoutPanel1
             // 

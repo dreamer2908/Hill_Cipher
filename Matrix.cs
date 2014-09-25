@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ColorMatrixConverter
+namespace Hill_Cipher
 {
     public class Matrix
     {
@@ -22,6 +22,12 @@ namespace ColorMatrixConverter
             set { _matrix[x, y] = value; }
         }
 
+        public Boolean isUsable()
+        {
+            int det = this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0];
+            return (det != 0 && det % 2 != 0 && det % 13 != 0);
+        }
+
         // modular multiplicative inverse
         public static int modInverse(int _a, int m)
         {
@@ -38,20 +44,21 @@ namespace ColorMatrixConverter
 
         public static Matrix Multiplication(Matrix m1, Matrix m2)
         {
-            Matrix resultMatrix = new Matrix(m1.Height, m2.Width);
+            Matrix result = new Matrix(m1.Height, m2.Width);
 
-            for (int i = 0; i < resultMatrix.Height; i++)
+            for (int i = 0; i < result.Height; i++)
             {
-                for (int j = 0; j < resultMatrix.Width; j++)
+                for (int j = 0; j < result.Width; j++)
                 {
-                    resultMatrix[i, j] = 0;
+                    result[i, j] = 0;
                     for (int k = 0; k < m1.Width; k++)
                     {
-                        resultMatrix[i, j] += m1[i, k] * m2[k, j];
+                        result[i, j] += m1[i, k] * m2[k, j];
                     }
+                    // resultMatrix[i, j] = resultMatrix[i, j] % 26;
                 }
             }
-            return resultMatrix;
+            return result;
         }
 
         public static Matrix Inverse2x2Matrix(Matrix m)
@@ -76,21 +83,30 @@ namespace ColorMatrixConverter
 
         public static Matrix MultipleBy(Matrix m, int n)
         {            
-            Matrix resultMatrix = new Matrix(m.Height, m.Width);
+            Matrix result = new Matrix(m.Height, m.Width);
 
-            for (int i = 0; i < resultMatrix.Height; i++)
+            for (int i = 0; i < result.Height; i++)
             {
-                for (int j = 0; j < resultMatrix.Width; j++)
+                for (int j = 0; j < result.Width; j++)
                 {
-                    resultMatrix[i, j] = n * m[i, j];
+                    result[i, j] = n * m[i, j];
                 }
             }
-            return resultMatrix;
+            return result;
         }
 
         public string String2Show()
         {
-            string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]) + " " + Format(this[0, 2]) + "\n" + Format(this[1, 0]) + " " + Format(this[1, 1]) + " " + Format(this[1, 2]) + "\n" + Format(this[2, 0]) + " " + Format(this[2, 1]) + " " + Format(this[2, 2]);
+            // string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]) + " " + Format(this[0, 2]) + "\n" + Format(this[1, 0]) + " " + Format(this[1, 1]) + " " + Format(this[1, 2]) + "\n" + Format(this[2, 0]) + " " + Format(this[2, 1]) + " " + Format(this[2, 2]);
+            string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]) + " \n" + Format(this[1, 0]) + " " + Format(this[1, 1]);
+
+            return tmp;
+        }
+
+        public string String2Show2()
+        {
+            // string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]) + " " + Format(this[0, 2]) + "\n" + Format(this[1, 0]) + " " + Format(this[1, 1]) + " " + Format(this[1, 2]) + "\n" + Format(this[2, 0]) + " " + Format(this[2, 1]) + " " + Format(this[2, 2]);
+            string tmp = Format(this[0, 0]) + " " + Format(this[0, 1]);
 
             return tmp;
         }
