@@ -13,6 +13,7 @@ namespace Hill_Cipher
         public Form1()
         {
             InitializeComponent();
+            getNewKey();
             //numKey00.Value = 10;
             //numKey01.Value = 3;
             //numKey10.Value = 25;
