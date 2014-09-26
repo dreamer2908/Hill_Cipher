@@ -8,8 +8,9 @@ namespace Hill_Cipher
     {
         public static Boolean useRowMsgVector = false;
 
-        public static string encryptText(string plainText, Matrix key)
+        public static string encryptText(string _plainText, Matrix key)
         {
+            string plainText = _plainText.ToUpper();
             string cipherText = "";
             for (int i = 0; i < plainText.Length / 2; i++) 
             {
@@ -43,11 +44,11 @@ namespace Hill_Cipher
             return cipherText;
         }
 
-        public static string decryptText(string cipherText, Matrix _key)
+        public static string decryptText(string _cipherText, Matrix _key)
         {
             // The only difference between encrypting and decrypting is the key
             // Inverse the key, give it to the encrypt function and we got a decrypt function
-
+            string cipherText = _cipherText.ToUpper();
             // Inverse the key
             Matrix key = Matrix.Inverse2x2Matrix(_key); // MessageBox.Show(key.String2Show());
             // Decrypt with the encrypt function and the inversed key

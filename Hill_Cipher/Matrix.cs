@@ -91,7 +91,7 @@ namespace Hill_Cipher
                 }
             }
             //System.Windows.Forms.MessageBox.Show(re.String2Show());
-            re.Modular(26);
+            re.ModularBy(26);
             //System.Windows.Forms.MessageBox.Show(re.String2Show());
             return re;
         }
@@ -103,35 +103,35 @@ namespace Hill_Cipher
             // see Cryptography and Network Security Principles and Practice, 5th Edition, page 46
 
             if (!(m.Height == 2 && m.Width == 2)) // wrong size
-                return null; 
-
-            Matrix re = new Matrix(2, 2);
+                return null;
+            if (!m.isUsable()) // so not inversible
+                return null;
 
             int det = m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0];
             int miDet = (int)modInverse(det, 26);
             // System.Windows.Forms.MessageBox.Show("det = " + det.ToString() + " miDet = " + miDet.ToString()); 
-
+            Matrix re = new Matrix(2, 2);
             re[0, 0] = (m[1, 1] * miDet);
             re[0, 1] = (-m[0, 1] * miDet);
             re[1, 0] = (-m[1, 0] * miDet);
             re[1, 1] = (m[0, 0] * miDet);
-            re.Modular(26);
+            re.ModularBy(26);
 
             return re;
         }
 
         // The way C# modular number, while not wrong, is unsuitable for our purpose
         // Modular must be always non-negative
-        private static int modular(int a, int m)
+        public static int modular(int a, int m)
         {
             int re = a % m;
-            if (re < 0)
+            if (re * m < 0)
                 re = m + re;
             return re;
         }
 
         // modular this matrix by m
-        public void Modular(int m)
+        public void ModularBy(int m)
         {
             for (int i = 0; i < this.Height; i++)
                 for (int j = 0; j < this.Width; j++)
