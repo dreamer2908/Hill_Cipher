@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtPlainText = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -46,6 +47,7 @@
             this.numKey10 = new System.Windows.Forms.NumericUpDown();
             this.numKey01 = new System.Windows.Forms.NumericUpDown();
             this.numKey00 = new System.Windows.Forms.NumericUpDown();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -141,6 +143,7 @@
             this.btnCheckKey.Size = new System.Drawing.Size(75, 23);
             this.btnCheckKey.TabIndex = 5;
             this.btnCheckKey.Text = "&Check key";
+            this.toolTip1.SetToolTip(this.btnCheckKey, "Verify if this key is usable in 2x2 Hill cipher");
             this.btnCheckKey.UseVisualStyleBackColor = true;
             this.btnCheckKey.Click += new System.EventHandler(this.btnCheckKey_Click);
             // 
@@ -152,6 +155,7 @@
             this.btnNewKey.Size = new System.Drawing.Size(75, 23);
             this.btnNewKey.TabIndex = 4;
             this.btnNewKey.Text = "&New key";
+            this.toolTip1.SetToolTip(this.btnNewKey, "Generate a random and usable key");
             this.btnNewKey.UseVisualStyleBackColor = true;
             this.btnNewKey.Click += new System.EventHandler(this.btnNewKey_Click);
             // 
@@ -174,8 +178,8 @@
             this.btnEncrypt.Size = new System.Drawing.Size(75, 23);
             this.btnEncrypt.TabIndex = 2;
             this.btnEncrypt.Text = "&Encrypt";
+            this.toolTip1.SetToolTip(this.btnEncrypt, "Right click to switch between column and row message vector mode");
             this.btnEncrypt.UseVisualStyleBackColor = true;
-            this.btnEncrypt.Click += new System.EventHandler(this.btnEncrypt_Click);
             this.btnEncrypt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnEncrypt_MouseUp);
             // 
             // groupBox4
@@ -352,6 +356,7 @@
         private System.Windows.Forms.Button btnDecrypt;
         private System.Windows.Forms.Button btnNewKey;
         private System.Windows.Forms.Button btnCheckKey;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

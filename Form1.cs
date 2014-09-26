@@ -100,6 +100,10 @@ namespace Hill_Cipher
             // get encryption key
             Matrix key = getCurrentKey();
             // MessageBox.Show(key.String2Show());
+            if (!key.isUsable())
+            {
+                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message with this key and send it, it canNOT be decrypted even if the receiver has the key! Please click \"New key\" to get a good key!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
             // encrypt it
             string cipherText = HillCipher2x2.encryptText(plainText, key);
@@ -125,6 +129,10 @@ namespace Hill_Cipher
             }
             // get the encryption key
             Matrix key = getCurrentKey();
+            if (!key.isUsable())
+            {
+                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! Your message canNOT be decrypted sucessfully with this key. Are you sure you input the correct key?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
             // decrypt it
             string plainText = HillCipher2x2.decryptText(cipherText, key);
@@ -181,11 +189,11 @@ namespace Hill_Cipher
             Matrix key = getCurrentKey();
             if (key.isUsable())
             {
-                MessageBox.Show("This key is usable!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("This key is suitable for 2x2 Hill cipher. All good!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("This key is NOT usable! Please use \"New key\" function to generate a good key!","Check key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message with this key and send it, it canNOT be decrypted even if the receiver has the key! Please click \"New key\" to get a good key!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -214,11 +222,6 @@ namespace Hill_Cipher
                 if (re == DialogResult.OK)
                     HillCipher2x2.useRowMsgVector = !HillCipher2x2.useRowMsgVector;
             }
-        }
-
-        private void btnEncrypt_Click(object sender, EventArgs e)
-        {
-            encryptText();
         }
     }
 }
