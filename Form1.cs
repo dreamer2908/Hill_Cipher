@@ -189,11 +189,6 @@ namespace Hill_Cipher
             }
         }
 
-        private void btnEncrypt_Click(object sender, EventArgs e)
-        {
-            encryptText();
-        }
-
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
             decryptText();
@@ -202,6 +197,28 @@ namespace Hill_Cipher
         private void btnNewKey_Click(object sender, EventArgs e)
         {
             getNewKey();
+        }
+
+        private void btnEncrypt_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                encryptText();
+            }
+            else
+            {
+                String message = "You are about to switch to the row message vector mode, which produces different results than the column vector mode. Are you sure?";
+                if (HillCipher2x2.useRowMsgVector)
+                    message = "You are about to switch to the column message vector mode, which produces different results than the row vector mode. Are you sure?";
+                DialogResult re = MessageBox.Show(message, "Switch message vector mode", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (re == DialogResult.OK)
+                    HillCipher2x2.useRowMsgVector = !HillCipher2x2.useRowMsgVector;
+            }
+        }
+
+        private void btnEncrypt_Click(object sender, EventArgs e)
+        {
+            encryptText();
         }
     }
 }

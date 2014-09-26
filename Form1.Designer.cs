@@ -176,6 +176,7 @@
             this.btnEncrypt.Text = "&Encrypt";
             this.btnEncrypt.UseVisualStyleBackColor = true;
             this.btnEncrypt.Click += new System.EventHandler(this.btnEncrypt_Click);
+            this.btnEncrypt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnEncrypt_MouseUp);
             // 
             // groupBox4
             // 
