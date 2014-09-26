@@ -15,8 +15,10 @@ x64/
 x86/
 build/
 bld/
-[Bb]in/
-[Oo]bj/
+./Hill_Cipher/[Bb]in/
+./Hill_Cipher/[Oo]bj/
+./Hill_Cipher.Test/[Bb]in/
+./Hill_Cipher.Test/[Oo]bj/
 
 # Roslyn cache directories
 *.ide/
