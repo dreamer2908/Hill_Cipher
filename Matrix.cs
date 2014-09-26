@@ -25,10 +25,15 @@ namespace Hill_Cipher
         }
 
         // A key is usable if its determinant is not zero, and not divisible by both 2 and 13
+        // its size should be 2x2, too
         public Boolean isUsable()
         {
-            int det = this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0];
-            return (det != 0 && det % 2 != 0 && det % 13 != 0);
+            if (this.Width == 2 && this.Height == 2)
+            {
+                int det = this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0];
+                return (det != 0 && det % 2 != 0 && det % 13 != 0);
+            }
+            return false;
         }
 
         private static Random _r = new Random(); // random number generator had better be static
