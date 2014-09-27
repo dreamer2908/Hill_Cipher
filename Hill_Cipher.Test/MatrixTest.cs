@@ -159,15 +159,17 @@ namespace Hill_Cipher.Test
             unitM[0, 1] = 0;
             unitM[1, 0] = 0;
             unitM[1, 1] = 1;
+            Matrix zeroM = new Matrix(2, 2);
+            zeroM.zeroFill();
             Matrix m2 = Matrix.Inverse2x2Matrix(m1);
-            if (m2 != null) // inversible
+            Matrix product = Matrix.Multiply(m1, m2);
+            if (m1.isUsable()) // inversible
             {
-                Matrix product = Matrix.Multiply(m1, m2);
                 Assert.AreEqual(product.String2Show(), unitM.String2Show());
             }
-            else
+            else // return zero matrix if it's not inversible
             {
-                Assert.AreEqual(false, m1.isUsable()); // matrixes which are not inversible should be unusable
+                Assert.AreEqual(product.String2Show(), zeroM.String2Show()); 
             }
         }
 

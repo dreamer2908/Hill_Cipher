@@ -24,6 +24,13 @@ namespace Hill_Cipher
             set { _matrix[x, y] = value; }
         }
 
+        public void zeroFill()
+        {
+            for (int x = 0; x < dim1; x++)
+                for (int y = 0; y < dim2; y++)
+                    this[x, y] = 0;
+        }
+
         // A key is usable if its determinant is not zero, and not divisible by both 2 and 13
         // its size should be 2x2, too
         public Boolean isUsable()
@@ -101,16 +108,19 @@ namespace Hill_Cipher
         public static Matrix Inverse2x2Matrix(Matrix m)
         {
             // see Cryptography and Network Security Principles and Practice, 5th Edition, page 46
-
+            Matrix re = new Matrix(2, 2);
             if (!(m.Height == 2 && m.Width == 2)) // wrong size
                 return null;
-            //if (!m.isUsable()) // so not inversible // still return for the sake of simplicity
-            //    return null; // it will be [[0, 0], [0, 0]]
+            if (!m.isUsable()) // so not inversible // still return for the sake of simplicity
+            {
+                re.zeroFill();
+                return re; // it will be [[0, 0], [0, 0]]
+            }
 
             int det = m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0];
             int miDet = (int)modInverse(det, 26);
             // System.Windows.Forms.MessageBox.Show("det = " + det.ToString() + " miDet = " + miDet.ToString()); 
-            Matrix re = new Matrix(2, 2);
+            
             re[0, 0] = (m[1, 1] * miDet);
             re[0, 1] = (-m[0, 1] * miDet);
             re[1, 0] = (-m[1, 0] * miDet);
