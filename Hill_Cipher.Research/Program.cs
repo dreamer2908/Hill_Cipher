@@ -14,7 +14,7 @@ namespace Hill_Cipher.Research
         static void verifyKeyConditionVsDecryptability()
         {
             string plainText = "abcdefghijklmnopqrstuvwxyz".ToUpper();
-            plainText = Hill_Cipher.HillCipher2x2.plainTextFullSample(); // actually not too big
+            // plainText = Hill_Cipher.HillCipher2x2.plainTextFullSample(); // actually not too big
             Matrix key = new Matrix(2, 2);
             int total = 0;
             int conditionMet_decryptable = 0;
