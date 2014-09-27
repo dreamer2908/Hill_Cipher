@@ -11,7 +11,7 @@ namespace Hill_Cipher
         public static string encryptText(string _plainText, Matrix key)
         {
             string plainText = _plainText.ToUpper();
-            string cipherText = "";
+            StringBuilder cipherText = new StringBuilder();
             for (int i = 0; i < plainText.Length / 2; i++) 
             {
                 // the key is 2x2 so we work on blocks of 2 characters
@@ -28,7 +28,7 @@ namespace Hill_Cipher
                     // multiply the message vector by the key
                     Matrix cipherCodes = Matrix.Multiply(key, msgVector);
                     // turn numbers back to letters
-                    cipherText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString();
+                    cipherText.Append(((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[1, 0] + 65)).ToString());
                 }
                 else
                 {
@@ -38,10 +38,10 @@ namespace Hill_Cipher
                     // multiply the message vector by the key
                     Matrix cipherCodes = Matrix.Multiply(msgVector, key);
                     // turn numbers back to letters
-                    cipherText += ((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[0, 1] + 65)).ToString();
+                    cipherText.Append(((char)(cipherCodes[0, 0] + 65)).ToString() + ((char)(cipherCodes[0, 1] + 65)).ToString());
                 }
             }
-            return cipherText;
+            return cipherText.ToString();
         }
 
         public static string decryptText(string _cipherText, Matrix _key)
@@ -62,7 +62,7 @@ namespace Hill_Cipher
             StringBuilder plainText = new StringBuilder();
             for (int i = (int)'A'; i < (int)'Z'; i++)
                 for (int j = (int)'A'; j < (int)'Z'; j++)
-                    plainText.Append((char)i + (char)j);
+                    plainText.Append(((char)i).ToString() + ((char)j).ToString());
             return plainText.ToString();
         }
     }

@@ -14,14 +14,14 @@ namespace Hill_Cipher.Research
         static void verifyKeyConditionVsDecryptability()
         {
             string plainText = "abcdefghijklmnopqrstuvwxyz".ToUpper();
-            plainText = Hill_Cipher.HillCipher2x2.plainTextFullSample();
+            plainText = Hill_Cipher.HillCipher2x2.plainTextFullSample(); // actually not too big
             Matrix key = new Matrix(2, 2);
             int total = 0;
             int conditionMet_decryptable = 0;
             int conditionMet_notDecryptable = 0;
             int conditionNotMet_decryptable = 0;
             int conditionNotMet_notDecryptable = 0;
-            for (int k1 = 0; k1 < 1; k1++)
+            for (int k1 = 0; k1 < 26; k1++)
                 for (int k2 = 0; k2 < 26; k2++)
                     for (int k3 = 0; k3 < 26; k3++)
                         for (int k4 = 0; k4 < 26; k4++)
