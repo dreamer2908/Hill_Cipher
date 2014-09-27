@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hill_Cipher", "Hill_Cipher\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hill_Cipher.Test", "Hill_Cipher.Test\Hill_Cipher.Test.csproj", "{AEB52974-BCA3-41E3-B4D8-CD606577DFA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hill_Cipher.Research", "Hill_Cipher.Research\Hill_Cipher.Research.csproj", "{B5985CC9-665A-4413-B0B8-879F7FA1BA6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{AEB52974-BCA3-41E3-B4D8-CD606577DFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB52974-BCA3-41E3-B4D8-CD606577DFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEB52974-BCA3-41E3-B4D8-CD606577DFA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5985CC9-665A-4413-B0B8-879F7FA1BA6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5985CC9-665A-4413-B0B8-879F7FA1BA6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5985CC9-665A-4413-B0B8-879F7FA1BA6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5985CC9-665A-4413-B0B8-879F7FA1BA6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

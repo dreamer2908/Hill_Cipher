@@ -55,5 +55,15 @@ namespace Hill_Cipher
             string plainText = encryptText(cipherText, key);
             return plainText;
         }
+
+        public static string plainTextFullSample()
+        {
+            // all possible pairs of chars
+            StringBuilder plainText = new StringBuilder();
+            for (int i = (int)'A'; i < (int)'Z'; i++)
+                for (int j = (int)'A'; j < (int)'Z'; j++)
+                    plainText.Append((char)i + (char)j);
+            return plainText.ToString();
+        }
     }
 }

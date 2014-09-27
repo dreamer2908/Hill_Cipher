@@ -104,8 +104,8 @@ namespace Hill_Cipher
 
             if (!(m.Height == 2 && m.Width == 2)) // wrong size
                 return null;
-            if (!m.isUsable()) // so not inversible
-                return null;
+            //if (!m.isUsable()) // so not inversible // still return for the sake of simplicity
+            //    return null; // it will be [[0, 0], [0, 0]]
 
             int det = m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0];
             int miDet = (int)modInverse(det, 26);

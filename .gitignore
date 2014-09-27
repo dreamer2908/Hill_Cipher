@@ -19,6 +19,8 @@ bld/
 ./Hill_Cipher/[Oo]bj/
 ./Hill_Cipher.Test/[Bb]in/
 ./Hill_Cipher.Test/[Oo]bj/
+./Hill_Cipher.Research/[Bb]in/
+./Hill_Cipher.Research/[Oo]bj/
 
 # Roslyn cache directories
 *.ide/
