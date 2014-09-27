@@ -102,7 +102,7 @@ namespace Hill_Cipher
             // MessageBox.Show(key.String2Show());
             if (!key.isUsable())
             {
-                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message with this key and send it, it canNOT be decrypted even if the receiver has the key! Please click \"New key\" to get a good key!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             // encrypt it
@@ -193,7 +193,7 @@ namespace Hill_Cipher
             }
             else
             {
-                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message with this key and send it, it canNOT be decrypted even if the receiver has the key! Please click \"New key\" to get a good key!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -215,9 +215,9 @@ namespace Hill_Cipher
             }
             else
             {
-                String message = "You are about to switch to the row message vector mode, which produces different results than the column vector mode. Are you sure?";
+                String message = "You are about to switch to the row message vector mode, \nwhich produces different results than the column vector mode. \nAre you sure?";
                 if (HillCipher2x2.useRowMsgVector)
-                    message = "You are about to switch to the column message vector mode, which produces different results than the row vector mode. Are you sure?";
+                    message = "You are about to switch to the column message vector mode, \nwhich produces different results than the row vector mode. \nAre you sure?";
                 DialogResult re = MessageBox.Show(message, "Switch message vector mode", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (re == DialogResult.OK)
                     HillCipher2x2.useRowMsgVector = !HillCipher2x2.useRowMsgVector;
