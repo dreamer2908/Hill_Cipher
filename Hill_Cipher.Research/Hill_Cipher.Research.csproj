@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="..\Hill_Cipher\HillCipher2x2.cs" />
     <Compile Include="..\Hill_Cipher\Matrix.cs" />
+    <Compile Include="benchmark.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
