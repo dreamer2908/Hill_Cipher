@@ -67,6 +67,7 @@ namespace Hill_Cipher.Research
             string plainText = "abcdefghijklmnopqrstuvwxyz".ToUpper();
             //plainText = Hill_Cipher.HillCipher2x2.plainTextFullSample(); // if you want a bigger sample
             Matrix key = Hill_Cipher.Matrix.generateNewKey();
+            string cipherText = Hill_Cipher.HillCipher2x2.encryptText(plainText, key);
             int loops = 1000000;
 
             benchmark bm = new benchmark();
@@ -81,10 +82,16 @@ namespace Hill_Cipher.Research
             bm.startBenchmark();
             for (int i = 0; i < loops; i++)
             {
-                string cipherText = Hill_Cipher.HillCipher2x2.encryptText(plainText, key);
+                string _cipherText = Hill_Cipher.HillCipher2x2.encryptText(plainText, key);
+            }
+            Console.WriteLine("Encrypting the sample (" + plainText.Length + " chars) " + loops.ToString() + " times took " + bm.getBenchmarkResult() + ".");
+
+            bm.startBenchmark();
+            for (int i = 0; i < loops; i++)
+            {
                 string _plainText = Hill_Cipher.HillCipher2x2.decryptText(cipherText, key);
             }
-            Console.WriteLine("Encrypting & decrypting the sample " + loops.ToString() + " times took " + bm.getBenchmarkResult() + ".");
+            Console.WriteLine("Decrypting the sample (" + cipherText.Length + " chars) " + loops.ToString() + " times took " + bm.getBenchmarkResult() + ".");
         }
     }
 }
