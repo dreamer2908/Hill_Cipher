@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Hill_Cipher.Test
 {
     [TestFixture]
-    class HillCipher2x2Test
+    class HillCipherTest
     {
         // reference encrypter for column message vector http://practicalcryptography.com/ciphers/hill-cipher/
         [TestCase("implementation", "aglwsuvzmfktpd")]
@@ -21,8 +21,8 @@ namespace Hill_Cipher.Test
             key[0, 1] = 3;
             key[1, 0] = 3;
             key[1, 1] = 5;
-            Hill_Cipher.HillCipher2x2.useRowMsgVector = false;
-            string re = Hill_Cipher.HillCipher2x2.encryptText(plainText, key);
+            Hill_Cipher.HillCipher.useRowMsgVector = false;
+            string re = Hill_Cipher.HillCipher.encryptText(plainText, key);
             Assert.AreEqual(expected.ToUpper(), re.ToUpper());
         }
 
@@ -39,8 +39,8 @@ namespace Hill_Cipher.Test
             key[0, 1] = 3;
             key[1, 0] = 3;
             key[1, 1] = 5;
-            Hill_Cipher.HillCipher2x2.useRowMsgVector = false;
-            string re = Hill_Cipher.HillCipher2x2.decryptText(cipherText, key);
+            Hill_Cipher.HillCipher.useRowMsgVector = false;
+            string re = Hill_Cipher.HillCipher.decryptText(cipherText, key);
             Assert.AreEqual(expected.ToUpper(), re.ToUpper());
         }
 
@@ -52,8 +52,8 @@ namespace Hill_Cipher.Test
             key[0, 1] = 2;
             key[1, 0] = 8;
             key[1, 1] = 5;
-            Hill_Cipher.HillCipher2x2.useRowMsgVector = true;
-            string re = Hill_Cipher.HillCipher2x2.encryptText(plainText, key);
+            Hill_Cipher.HillCipher.useRowMsgVector = true;
+            string re = Hill_Cipher.HillCipher.encryptText(plainText, key);
             Assert.AreEqual(expected.ToUpper(), re.ToUpper());
         }
 
@@ -65,8 +65,8 @@ namespace Hill_Cipher.Test
             key[0, 1] = 2;
             key[1, 0] = 8;
             key[1, 1] = 5;
-            Hill_Cipher.HillCipher2x2.useRowMsgVector = true;
-            string re = Hill_Cipher.HillCipher2x2.decryptText(cipherText, key);
+            Hill_Cipher.HillCipher.useRowMsgVector = true;
+            string re = Hill_Cipher.HillCipher.decryptText(cipherText, key);
             Assert.AreEqual(expected.ToUpper(), re.ToUpper());
         }
     }

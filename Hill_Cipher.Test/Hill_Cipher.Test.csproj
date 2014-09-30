@@ -51,9 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Hill_Cipher\HillCipher2x2.cs" />
+    <Compile Include="..\Hill_Cipher\HillCipher.cs" />
     <Compile Include="..\Hill_Cipher\Matrix.cs" />
-    <Compile Include="HillCipher2x2Test.cs" />
+    <Compile Include="HillCipherTest.cs" />
     <Compile Include="MatrixTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -44,6 +44,13 @@ namespace Hill_Cipher
             return re;
         }
 
+        public static string preparePlainText(string _text)
+        {
+            string text = removeNonAlphaChars(_text);
+
+            return text;
+        }
+
         private void updateKeyString()
         {
             // remove non alpha chars
@@ -72,6 +79,16 @@ namespace Hill_Cipher
 
         private Matrix getCurrentKey()
         {
+            //Matrix key = new Matrix(3, 3);
+            //key[0, 0] = 17;
+            //key[0, 1] = 17;
+            //key[0, 2] = 5;
+            //key[1, 0] = 21;
+            //key[1, 1] = 18;
+            //key[1, 2] = 21;
+            //key[2, 0] = 2;
+            //key[2, 1] = 2;
+            //key[2, 2] = 19;
             Matrix key = new Matrix(2, 2);
             key[0, 0] = (int)numKey00.Value;
             key[0, 1] = (int)numKey01.Value;
@@ -83,6 +100,14 @@ namespace Hill_Cipher
         // Reference encrypter, decrypter: http://practicalcryptography.com/ciphers/hill-cipher/
         private void encryptText()
         {
+            // get the encryption key
+            Matrix key = getCurrentKey();
+            int keySize = key.Height;
+            if (!key.isUsable())
+            {
+                MessageBox.Show("This key is NOT usable in " + keySize.ToString() + "x" + keySize.ToString() + " Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             // remove non alpha chars
             string plainText = removeNonAlphaChars(txtPlainText.Text.ToUpper());
 
@@ -93,25 +118,27 @@ namespace Hill_Cipher
                 txtPlainText.Text = "AMESSAGE";
                 return;
             }
-            if (plainText.Length % 2 != 0)
+            if (plainText.Length % keySize != 0)
             {
-                MessageBox.Show("Message length is not divisible by 2. Gonna insert one more character!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            // get encryption key
-            Matrix key = getCurrentKey();
-            // MessageBox.Show(key.String2Show());
-            if (!key.isUsable2x2())
-            {
-                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Message length is not divisible by " + keySize.ToString() + ". Gonna insert more character(s)!", "Encrypt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                plainText += "A";
             }
 
             // encrypt it
-            string cipherText = HillCipher2x2.encryptText(plainText, key);
+            string cipherText = HillCipher.encryptText(plainText, key);
             txtCipherText.Text = cipherText;
         }
 
         private void decryptText()
         {
+            // get the encryption key
+            Matrix key = getCurrentKey();
+            int keySize = key.Height;
+            if (!key.isUsable())
+            {
+                MessageBox.Show("This key is NOT usable in " + keySize.ToString() + "x" + keySize.ToString() + " Hill cipher! Your message canNOT be decrypted sucessfully with this key. Are you sure you input the correct key?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             // remove non alpha chars
             string cipherText = removeNonAlphaChars(txtCipherText.Text.ToUpper());
 
@@ -122,20 +149,14 @@ namespace Hill_Cipher
                 txtCipherText.Text = "AMESSAGE";
                 return;
             }
-            if (cipherText.Length % 2 != 0)
+            if (cipherText.Length % keySize != 0)
             {
-                MessageBox.Show("Message length is not divisible by 2. Wrong algorithm?", "Decrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Message length is not divisible by " + keySize.ToString() + ". Wrong algorithm?", "Decrypt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
-            // get the encryption key
-            Matrix key = getCurrentKey();
-            if (!key.isUsable2x2())
-            {
-                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! Your message canNOT be decrypted sucessfully with this key. Are you sure you input the correct key?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             // decrypt it
-            string plainText = HillCipher2x2.decryptText(cipherText, key);
+            string plainText = HillCipher.decryptText(cipherText, key);
             txtPlainText.Text = plainText;
         }
 
@@ -187,13 +208,14 @@ namespace Hill_Cipher
         private void btnCheckKey_Click(object sender, EventArgs e)
         {
             Matrix key = getCurrentKey();
-            if (key.isUsable2x2())
+            int keySize = key.Height;
+            if (key.isUsable())
             {
-                MessageBox.Show("This key is suitable for 2x2 Hill cipher. All good!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("This key is suitable for " + keySize.ToString() + "x" + keySize.ToString() + " Hill cipher. All good!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("This key is NOT usable in " + keySize.ToString() + "x" + keySize.ToString() + " Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -216,11 +238,11 @@ namespace Hill_Cipher
             else
             {
                 String message = "You are about to switch to the row message vector mode, \nwhich produces different results than the column vector mode. \nAre you sure?";
-                if (HillCipher2x2.useRowMsgVector)
+                if (HillCipher.useRowMsgVector)
                     message = "You are about to switch to the column message vector mode, \nwhich produces different results than the row vector mode. \nAre you sure?";
                 DialogResult re = MessageBox.Show(message, "Switch message vector mode", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (re == DialogResult.OK)
-                    HillCipher2x2.useRowMsgVector = !HillCipher2x2.useRowMsgVector;
+                    HillCipher.useRowMsgVector = !HillCipher.useRowMsgVector;
             }
         }
     }

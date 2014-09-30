@@ -64,6 +64,11 @@ namespace Hill_Cipher
             return false;
         }
 
+        public Boolean isSquare()
+        {
+            return (this.Height == this.Width);
+        }
+
         public int determinant()
         {
             if ((this.Height != this.Width))
