@@ -43,6 +43,47 @@ namespace Hill_Cipher
             return false;
         }
 
+        public int determinant()
+        {
+            if ((this.Height != this.Width))
+            {
+                Exception e = new Exception("Matrix must be square!");
+                throw e;
+            }
+
+            // see https://en.wikipedia.org/wiki/Determinant
+            // and http://ctec.tvu.edu.vn/ttkhai/TCC/63_Dinh_thuc.htm
+            // and http://mathworld.wolfram.com/Determinant.html
+            // Using recursive implemention
+            int det = 0;
+            int n = this.Height;
+
+            if (n == 1)
+            {
+                return this[0, 0];
+            }
+
+            for (int j = 0; j < n; j++)
+            {
+                // copy everything but row i column j to create minorMatrix
+                Matrix minorMatrix = new Matrix(n - 1, n - 1);
+                for (int x = 0; x < n - 1; x++)
+                {
+                    int r = (x < 1) ? x : x + 1;
+                    for (int y = 0; y < n - 1; y++)
+                    {
+                        int c = (y < j) ? y : y + 1;
+                        minorMatrix[x, y] = this[r, c];
+                    }
+                }
+                int minorDet = minorMatrix.determinant();
+                int cofactor = (int)Math.Pow(-1, 1 + j) * minorDet;
+                det = det + cofactor * this[1, j];
+            }
+
+            return det;
+        }
+
         private static Random _r = new Random(); // random number generator had better be static
 
         public static Matrix generateNewKey()
