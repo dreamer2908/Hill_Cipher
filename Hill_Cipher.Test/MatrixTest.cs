@@ -140,45 +140,69 @@ namespace Hill_Cipher.Test
             Assert.AreEqual(m3.String2Show(), re.String2Show());
         }
 
-        public void Multiply_VariousInputs_ChecksThem(int m1_00, int m1_01, int m1_10, int m1_11, int m2_00, int m2_01, int m2_10, int m2_11, int m3_00, int m3_01, int m3_10, int m3_11)
-        {
-        }
-
         [TestCase(5, 2, -7, -3)]
         [TestCase(5, 8, 17, 3)]
         [TestCase(5, 3, 5, 3)]
-        public void Inverse2x2Matrix_VariousInputs_ChecksThem(int k1, int k2, int k3, int k4)
+        public void InverseMatrix_2x2Inputs_ChecksThem(int k1, int k2, int k3, int k4)
         {
             Matrix m1 = new Matrix(2, 2);
             m1[0, 0] = k1;
             m1[0, 1] = k2;
             m1[1, 0] = k3;
             m1[1, 1] = k4;
-            Matrix unitM = new Matrix(2, 2);
-            unitM[0, 0] = 1;
-            unitM[0, 1] = 0;
-            unitM[1, 0] = 0;
-            unitM[1, 1] = 1;
-            Matrix zeroM = new Matrix(2, 2);
-            zeroM.zeroFill();
-            Matrix m2 = Matrix.Inverse2x2Matrix(m1);
-            Matrix product = Matrix.Multiply(m1, m2);
-            if (m1.isUsable2x2()) // inversible
+            Matrix unitM = Matrix.unit(2);
+            Matrix zeroM = Matrix.zero(2);
+            Matrix re = Matrix.InverseMatrix(m1);
+            Matrix product = Matrix.Multiply(m1, re);
+            if (m1.isUsable()) // inversible
             {
                 Assert.AreEqual(product.String2Show(), unitM.String2Show());
             }
             else // return zero matrix if it's not inversible
             {
-                Assert.AreEqual(product.String2Show(), zeroM.String2Show()); 
+                Assert.AreEqual(re.String2Show(), zeroM.String2Show()); 
+            }
+        }
+
+        [TestCase(-2, 3, -1, 5, -1, 4, 4, -8, 2)]
+        [TestCase(10, 0, -3, -2, -4, 1, 3, 0, 2)]
+        [TestCase(2, -3, -2, -6, 3, 3, -2, -3, -2)]
+        [TestCase(-4, 5, 2, -3, 4, 2, -1, 2, 5)]
+        [TestCase(1, -3, -6, -1, 5, 5, -1, 6, 5)]
+        [TestCase(17, 17, 5, 21, 18, 21, 2, 2, 19)]
+        public void InverseMatrix_3x3Inputs_ChecksThem(int m1_00, int m1_01, int m1_02, int m1_10, int m1_11, int m1_12, int m1_20, int m1_21, int m1_22)
+        {
+            Matrix m1 = new Matrix(3, 3);
+            m1[0, 0] = m1_00;
+            m1[0, 1] = m1_01;
+            m1[0, 2] = m1_02;
+            m1[1, 0] = m1_10;
+            m1[1, 1] = m1_11;
+            m1[1, 2] = m1_12;
+            m1[2, 0] = m1_20;
+            m1[2, 1] = m1_21;
+            m1[2, 2] = m1_22;
+            Matrix re = Matrix.InverseMatrix(m1);
+            // System.Windows.Forms.MessageBox.Show(re.String2Show());
+            Matrix unitM = Matrix.unit(3);
+            Matrix zeroM = Matrix.zero(3);
+            Matrix product = Matrix.Multiply(m1, re);
+            if (m1.isUsable()) // inversible
+            {
+                Assert.AreEqual(product.String2Show(), unitM.String2Show());
+            }
+            else // return zero matrix if it's not inversible
+            {
+                Assert.AreEqual(re.String2Show(), zeroM.String2Show());
             }
         }
 
         [Test]
-        public void Inverse2x2Matrix_WrongSize_ReturnsNull()
+        public void InverseMatrix_WrongSize__ThrowsFluent()
         {
-            Matrix m = new Matrix(2, 1);
-            var re = Matrix.Inverse2x2Matrix(m);
-            Assert.AreEqual(null, re);
+            Matrix m = new Matrix(3, 2);
+            var ex = Assert.Catch<Exception>(() => Hill_Cipher.Matrix.InverseMatrix(m));
+            Assert.That(ex.Message, Is.StringContaining("Matrix must be square"));
         }
 
         [TestCase(1, 1, 1, 1)]
@@ -242,5 +266,6 @@ namespace Hill_Cipher.Test
             m1[3, 3] = m1_33;
             Assert.AreEqual(expected, m1.determinant());
         }
+
     }
 }

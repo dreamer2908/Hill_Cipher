@@ -50,7 +50,7 @@ namespace Hill_Cipher
             // Inverse the key, give it to the encrypt function and we got a decrypt function
             string cipherText = _cipherText.ToUpper();
             // Inverse the key
-            Matrix key = Matrix.Inverse2x2Matrix(_key); // MessageBox.Show(key.String2Show());
+            Matrix key = Matrix.InverseMatrix(_key); // MessageBox.Show(key.String2Show());
             // Decrypt with the encrypt function and the inversed key
             string plainText = encryptText(cipherText, key);
             return plainText;
