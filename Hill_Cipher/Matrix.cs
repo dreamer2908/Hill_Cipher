@@ -90,19 +90,18 @@ namespace Hill_Cipher
 
         private static Random _r = new Random(); // random number generator had better be static
 
-        public static Matrix generateNewKey()
+        public static Matrix generateNewKey(int size)
         {
             // get new random numbers until got a usable key
             // usually got one after one or two attempts
-            Matrix newKey = new Matrix(2, 2);
+            Matrix newKey = new Matrix(size, size);
             // int count = 0;
-            while (!newKey.isUsable2x2())
+            while (!newKey.isUsable())
             {
                 // count += 1;
-                newKey[0, 0] = _r.Next(0, 25);
-                newKey[0, 1] = _r.Next(0, 25);
-                newKey[1, 0] = _r.Next(0, 25);
-                newKey[1, 1] = _r.Next(0, 25);
+                for (int i = 0; i < size; i++)
+                    for (int j = 0; j < size; j++)
+                        newKey[i, j] = _r.Next(0, 25);
             }
             // System.Windows.Forms.MessageBox.Show("Took " + count.ToString() + " attempts to get a usable key");
             return newKey;

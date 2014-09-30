@@ -66,7 +66,7 @@ namespace Hill_Cipher.Research
         {
             string plainText = "abcdefghijklmnopqrstuvwxyz".ToUpper();
             //plainText = Hill_Cipher.HillCipher2x2.plainTextFullSample(); // if you want a bigger sample
-            Matrix key = Hill_Cipher.Matrix.generateNewKey();
+            Matrix key = Hill_Cipher.Matrix.generateNewKey(2);
             string cipherText = Hill_Cipher.HillCipher2x2.encryptText(plainText, key);
             int loops = 1000000;
 
@@ -75,7 +75,7 @@ namespace Hill_Cipher.Research
 
             for (int i = 0; i < loops; i++)
             {
-                key = Hill_Cipher.Matrix.generateNewKey();
+                key = Hill_Cipher.Matrix.generateNewKey(2);
             }
             Console.WriteLine("Generating a new key " + loops.ToString() + " times took " + bm.getBenchmarkResult() + ".");
 

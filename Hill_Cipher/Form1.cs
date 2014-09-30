@@ -63,7 +63,7 @@ namespace Hill_Cipher
 
         private void getNewKey()
         {
-            Matrix newKey = Matrix.generateNewKey(); // generate a random and usable key
+            Matrix newKey = Matrix.generateNewKey(2); // generate a random and usable key
             numKey00.Value = newKey[0, 0];
             numKey01.Value = newKey[0, 1];
             numKey10.Value = newKey[1, 0];

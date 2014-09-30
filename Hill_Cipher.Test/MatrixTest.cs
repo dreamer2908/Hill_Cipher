@@ -68,7 +68,7 @@ namespace Hill_Cipher.Test
         [Test]
         public void generateNewKey_None_ReturnsAUsableKey()
         {
-            Matrix newKey = Matrix.generateNewKey();
+            Matrix newKey = Matrix.generateNewKey(2);
             Assert.AreEqual(true, newKey.isUsable2x2());
         }
 
