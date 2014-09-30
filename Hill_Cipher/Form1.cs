@@ -100,7 +100,7 @@ namespace Hill_Cipher
             // get encryption key
             Matrix key = getCurrentKey();
             // MessageBox.Show(key.String2Show());
-            if (!key.isUsable())
+            if (!key.isUsable2x2())
             {
                 MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -129,7 +129,7 @@ namespace Hill_Cipher
             }
             // get the encryption key
             Matrix key = getCurrentKey();
-            if (!key.isUsable())
+            if (!key.isUsable2x2())
             {
                 MessageBox.Show("This key is NOT usable in 2x2 Hill cipher! Your message canNOT be decrypted sucessfully with this key. Are you sure you input the correct key?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -187,7 +187,7 @@ namespace Hill_Cipher
         private void btnCheckKey_Click(object sender, EventArgs e)
         {
             Matrix key = getCurrentKey();
-            if (key.isUsable())
+            if (key.isUsable2x2())
             {
                 MessageBox.Show("This key is suitable for 2x2 Hill cipher. All good!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

@@ -55,21 +55,21 @@ namespace Hill_Cipher.Test
         [TestCase(2, 3, 3, 5, true)] // det = 1
         [TestCase(10, 3, 25, 5, true)] // det = -25
         [TestCase(7, 7, 1, 2, true)] // det = 21
-        public void isUsable_VariousInputs_ChecksThem(int k1, int k2, int k3, int k4, Boolean expected)
+        public void isUsable2x2_VariousInputs_ChecksThem(int k1, int k2, int k3, int k4, Boolean expected)
         {
             Matrix m = new Matrix(2, 2);
             m[0, 0] = k1;
             m[0, 1] = k2;
             m[1, 0] = k3;
             m[1, 1] = k4;
-            Assert.AreEqual(expected, m.isUsable());
+            Assert.AreEqual(expected, m.isUsable2x2());
         }
 
         [Test]
         public void generateNewKey_None_ReturnsAUsableKey()
         {
             Matrix newKey = Matrix.generateNewKey();
-            Assert.AreEqual(true, newKey.isUsable());
+            Assert.AreEqual(true, newKey.isUsable2x2());
         }
 
         [TestCase(7, 7, 1, 0, 7, 7, 1, 0, 26)]
@@ -163,7 +163,7 @@ namespace Hill_Cipher.Test
             zeroM.zeroFill();
             Matrix m2 = Matrix.Inverse2x2Matrix(m1);
             Matrix product = Matrix.Multiply(m1, m2);
-            if (m1.isUsable()) // inversible
+            if (m1.isUsable2x2()) // inversible
             {
                 Assert.AreEqual(product.String2Show(), unitM.String2Show());
             }

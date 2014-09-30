@@ -32,13 +32,17 @@ namespace Hill_Cipher
         }
 
         // A key is usable if its determinant is not zero, and not divisible by both 2 and 13
-        // its size should be 2x2, too
         public Boolean isUsable()
+        {
+            int det = this.determinant();
+            return ((det != 0 && det % 2 != 0 && det % 13 != 0) && (this.Width == this.Height));
+        }
+        // its size should be 2x2, too
+        public Boolean isUsable2x2()
         {
             if (this.Width == 2 && this.Height == 2)
             {
-                int det = this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0];
-                return (det != 0 && det % 2 != 0 && det % 13 != 0);
+                return this.isUsable();
             }
             return false;
         }
@@ -92,7 +96,7 @@ namespace Hill_Cipher
             // usually got one after one or two attempts
             Matrix newKey = new Matrix(2, 2);
             // int count = 0;
-            while (!newKey.isUsable())
+            while (!newKey.isUsable2x2())
             {
                 // count += 1;
                 newKey[0, 0] = _r.Next(0, 25);
@@ -152,7 +156,7 @@ namespace Hill_Cipher
             Matrix re = new Matrix(2, 2);
             if (!(m.Height == 2 && m.Width == 2)) // wrong size
                 return null;
-            if (!m.isUsable()) // so not inversible // still return for the sake of simplicity
+            if (!m.isUsable2x2()) // so not inversible // still return for the sake of simplicity
             {
                 re.zeroFill();
                 return re; // it will be [[0, 0], [0, 0]]
