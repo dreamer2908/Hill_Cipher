@@ -169,79 +169,46 @@ namespace Hill_Cipher
             return re;
         }
 
+        // Inverse matrix m (size 2x2) and return as a new matrix
+        // Shouldn't modify this matrix because it will be reused again and again
+        // see Cryptography and Network Security Principles and Practice, 5th Edition, page 46
         public static Matrix InverseMatrix(Matrix m)
         {
+            int size = m.Height;
             if (m.Height != m.Width)
             {
                 Exception e = new Exception("Matrix must be square!");
                 throw e;
             }
-            if (m.determinant() == 0)
-                return Matrix.zero(m.Width);
-            if (m.Height == 2)
-                return Matrix.Inverse2x2Matrix(m);
-            else if (m.Height == 3)
-                return Matrix.Inverse3x3Matrix(m);
-            else
+            if (!m.isUsable()) // so not inversible 
             {
-                Exception e = new Exception("Inversing matrix larger than 3x3 is not implemented!");
-                throw e;
-            }
-        }
-
-        // Inverse matrix m (size 2x2) and return as a new matrix
-        // Shouldn't modify this matrix because it will be reused again and again
-        private static Matrix Inverse2x2Matrix(Matrix m)
-        {
-            // see Cryptography and Network Security Principles and Practice, 5th Edition, page 46
-            if (!(m.Height == 2 && m.Width == 2)) // wrong size
-                return null;
-            if (!m.isUsable2x2()) // so not inversible // still return for the sake of simplicity
-            {
-                return Matrix.zero(2);
-            }
-
-            int det = m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0];
-            int miDet = (int)modInverse(det, 26);
-            // System.Windows.Forms.MessageBox.Show("det = " + det.ToString() + " miDet = " + miDet.ToString()); 
-
-            Matrix re = new Matrix(2, 2);
-            re[0, 0] = (m[1, 1] * miDet);
-            re[0, 1] = (-m[0, 1] * miDet);
-            re[1, 0] = (-m[1, 0] * miDet);
-            re[1, 1] = (m[0, 0] * miDet);
-            re.ModularBy(26);
-
-            return re;
-        }
-
-        private static Matrix Inverse3x3Matrix(Matrix m)
-        {
-            // see Cryptography and Network Security Principles and Practice, 5th Edition, page 46
-            if (!(m.Height == 3 && m.Width == 3)) // wrong size
-                return null;
-            if (!m.isUsable()) // so not inversible // still return for the sake of simplicity
-            {
-                return Matrix.zero(3);
+                // still return for the sake of simplicity
+                // Zero matrix * any matrix = zero matrix
+                return Matrix.zero(size);
             }
 
             int det = m.determinant();
             int miDet = (int)modInverse(det, 26);
-            // System.Windows.Forms.MessageBox.Show("det = " + det.ToString() + " miDet = " + miDet.ToString()); 
-            
-            Matrix re = new Matrix(3, 3);
-            int a = m[0, 0], b = m[0, 1], c = m[0, 2], d = m[1, 0], e = m[1, 1], f = m[1, 2], g = m[2, 0], h = m[2, 1], i = m[2, 2];
-            re[0, 0] = miDet * (e * i - f * h);
-            re[0, 1] = miDet * (c * h - b * i);
-            re[0, 2] = miDet * (b * f - c * e);
-            re[1, 0] = miDet * (f * g - d * i);
-            re[1, 1] = miDet * (a * i - c * g);
-            re[1, 2] = miDet * (c * d - a * f);
-            re[2, 0] = miDet * (d * h - e * g);
-            re[2, 1] = miDet * (b * g - a * h);
-            re[2, 2] = miDet * (a * e - b * d);
-            re.ModularBy(26);
 
+            Matrix re = new Matrix(size, size);
+            for (int i = 0; i < size; i++)
+                for (int j = 0; j < size; j++)
+                {
+                    // copy everything but row *j* column *i* to create minorMatrix 
+                    // It's NOT the same as in determinant()
+                    Matrix minorMatrix = new Matrix(size - 1, size - 1);
+                    for (int x = 0; x < size - 1; x++)
+                    {
+                        int r = (x < j) ? x : x + 1;
+                        for (int y = 0; y < size - 1; y++)
+                        {
+                            int c = (y < i) ? y : y + 1;
+                            minorMatrix[x, y] = m[r, c];
+                        }
+                    }
+                    int minorDet = minorMatrix.determinant();
+                    re[i, j] = miDet * (int)Math.Pow(-1, i + j) * minorDet;
+                }
             return re;
         }
 
