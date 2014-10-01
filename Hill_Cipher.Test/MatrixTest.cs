@@ -8,6 +8,8 @@ namespace Hill_Cipher.Test
     [TestFixture]
     public class MatrixTest
     {
+
+        #region Tests for modular
         [TestCase(-174, 1, 0)]
         [TestCase(678, 1, 0)]
         [TestCase(2, 26, 2)]
@@ -33,6 +35,26 @@ namespace Hill_Cipher.Test
             Assert.That(ex.Message, Is.StringContaining("divide by zero"));
         }
 
+        [TestCase(7, 7, 1, 0, 7, 7, 1, 0, 26)]
+        [TestCase(70, -2, -17, -70, 18, 24, 9, 8, 26)]
+        public void ModularBy_VariousInputs_ChecksThem(int k1, int k2, int k3, int k4, int l1, int l2, int l3, int l4, int mod)
+        {
+            Matrix m1 = new Matrix(2, 2);
+            m1[0, 0] = k1;
+            m1[0, 1] = k2;
+            m1[1, 0] = k3;
+            m1[1, 1] = k4;
+            m1.ModularBy(mod);
+            Matrix m2 = new Matrix(2, 2);
+            m2[0, 0] = l1;
+            m2[0, 1] = l2;
+            m2[1, 0] = l3;
+            m2[1, 1] = l4;
+            Assert.AreEqual(m2.String2Show(), m1.String2Show());
+        }
+        #endregion
+
+        #region Tests for modInverse
         [TestCase(23, 17)]
         [TestCase(9, 3)]
         [TestCase(1, 1)]
@@ -48,7 +70,9 @@ namespace Hill_Cipher.Test
             int re = Hill_Cipher.Matrix.modInverse(a, 26);
             Assert.AreEqual(expected, re);
         }
+        #endregion
 
+        #region Tests for isUsable
         [TestCase(1, 1, 0, 0, false)] // det = 0
         [TestCase(1, -1, 1, 1, false)] // det = 2
         [TestCase(7, 4, -1, 5, false)] // det = 39
@@ -81,33 +105,18 @@ namespace Hill_Cipher.Test
             m1[2, 2] = m1_22;
             Assert.AreEqual(expected, m1.isUsable());
         }
+        #endregion
 
-
+        #region Tests for generateNewKey
         [Test]
         public void generateNewKey_None_ReturnsAUsableKey()
         {
             Matrix newKey = Matrix.generateNewKey(2);
             Assert.AreEqual(true, newKey.isUsable2x2());
         }
-
-        [TestCase(7, 7, 1, 0, 7, 7, 1, 0, 26)]
-        [TestCase(70, -2, -17, -70, 18, 24, 9, 8, 26)]
-        public void ModularBy_VariousInputs_ChecksThem(int k1, int k2, int k3, int k4, int l1, int l2, int l3, int l4, int mod)
-        {
-            Matrix m1 = new Matrix(2, 2);
-            m1[0, 0] = k1;
-            m1[0, 1] = k2;
-            m1[1, 0] = k3;
-            m1[1, 1] = k4;
-            m1.ModularBy(mod);
-            Matrix m2 = new Matrix(2, 2);
-            m2[0, 0] = l1;
-            m2[0, 1] = l2;
-            m2[1, 0] = l3;
-            m2[1, 1] = l4;
-            Assert.AreEqual(m2.String2Show(), m1.String2Show());
-        }
-
+        #endregion
+        
+        #region Tests for Multiply
         [Test]
         public void Multiply_WrongSize_ReturnsNull()
         {
@@ -157,6 +166,7 @@ namespace Hill_Cipher.Test
             Matrix re = Matrix.Multiply(m1, m2);
             Assert.AreEqual(m3.String2Show(), re.String2Show());
         }
+        #endregion
 
         #region Tests for inverseMatrix
 
@@ -263,6 +273,7 @@ namespace Hill_Cipher.Test
         }
         #endregion
 
+        # region Tests for determinant
         [TestCase(1, 1, 1, 1)]
         [TestCase(5, 2, -7, -3)]
         [TestCase(5, 8, 17, 3)]
@@ -324,6 +335,7 @@ namespace Hill_Cipher.Test
             m1[3, 3] = m1_33;
             Assert.AreEqual(expected, m1.determinant());
         }
+    #endregion
 
     }
 }
