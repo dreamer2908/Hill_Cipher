@@ -108,6 +108,7 @@ namespace Hill_Cipher.Test
 
         [TestCase("ACT", "POH", 6, 24, 1, 13, 16, 10, 20, 17, 15)] // small sample in wikipedia
         [TestCase("CAT", "FIN", 6, 24, 1, 13, 16, 10, 20, 17, 15)]
+        [TestCase("paymoremoney", "LNSHDLEWMTRW", 17, 17, 5, 21, 18, 21, 2, 2, 19)] // sample in our report
         public void encryptText_Key3x3ColumnVectorVariousInputs_ChecksThem(string plainText, string expected, int m1_00, int m1_01, int m1_02, int m1_10, int m1_11, int m1_12, int m1_20, int m1_21, int m1_22)
         {
             Matrix key = new Matrix(3, 3);
@@ -127,6 +128,7 @@ namespace Hill_Cipher.Test
 
         [TestCase("POH", "ACT", 6, 24, 1, 13, 16, 10, 20, 17, 15)] // small sample in wikipedia
         [TestCase("FIN", "CAT", 6, 24, 1, 13, 16, 10, 20, 17, 15)]
+        [TestCase("LNSHDLEWMTRW", "paymoremoney", 17, 17, 5, 21, 18, 21, 2, 2, 19)] // sample in our report
         public void decryptText_Key3x3ColumnVectorVariousInputs_ChecksThem(string cipherText, string expected, int m1_00, int m1_01, int m1_02, int m1_10, int m1_11, int m1_12, int m1_20, int m1_21, int m1_22)
         {
             Matrix key = new Matrix(3, 3);
