@@ -52,7 +52,7 @@ namespace Hill_Cipher
                     for (int j = 0; j < keySize; j++)
                         msgVector[j, 0] = (int)plainText[i * keySize + j] - 65;
                     // multiply the message vector by the key
-                    Matrix cipherCodes = Matrix.Multiply(key, msgVector);
+                    Matrix cipherCodes = key * msgVector;
                     // turn numbers back to letters
                     for (int j = 0; j < keySize; j++)
                         cipherText.Append(((char)(cipherCodes[j, 0] + 65)).ToString());
@@ -63,7 +63,7 @@ namespace Hill_Cipher
                     for (int j = 0; j < keySize; j++)
                         msgVector[0, j] = (int)plainText[i * keySize + j] - 65;
                     // multiply the message vector by the key
-                    Matrix cipherCodes = Matrix.Multiply(msgVector, key);
+                    Matrix cipherCodes = msgVector * key;
                     // turn numbers back to letters
                     for (int j = 0; j < keySize; j++)
                         cipherText.Append(((char)(cipherCodes[0, j] + 65)).ToString());
@@ -80,7 +80,7 @@ namespace Hill_Cipher
             // Inverse the key, give it to the encrypt function and we got a decrypt function
             string cipherText = _cipherText.ToUpper();
             // Inverse the key
-            Matrix key = Matrix.InverseMatrix(_key); // MessageBox.Show(key.String2Show());
+            Matrix key = Matrix.Inverse(_key); // MessageBox.Show(key.String2Show());
             // Decrypt with the encrypt function and the inversed key
             string plainText = encryptText(cipherText, key);
             return plainText;

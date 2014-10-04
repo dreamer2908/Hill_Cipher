@@ -48,6 +48,25 @@ namespace Hill_Cipher
             return re;
         }
 
+        static public Matrix zero(int dim1, int dim2)
+        {
+            Matrix re = new Matrix(dim1, dim2);
+            for (int x = 0; x < dim1; x++)
+                for (int y = 0; y < dim2; y++)
+                    re[x, y] = 0;
+            return re;
+        }
+
+        static public Matrix zeroLike(Matrix m)
+        {
+            int dim1 = m.dim1, dim2 = m.dim2;
+            Matrix re = new Matrix(dim1, dim2);
+            for (int x = 0; x < dim1; x++)
+                for (int y = 0; y < dim2; y++)
+                    re[x, y] = 0;
+            return re;
+        }
+
         // A key is usable if its determinant is not zero, and not divisible by both 2 and 13
         public Boolean isUsable()
         {
@@ -69,6 +88,26 @@ namespace Hill_Cipher
             return (this.Height == this.Width);
         }
 
+        public Boolean isColumn()
+        {
+            return (this.dim2 == 1);
+        }
+
+        public Boolean isRow()
+        {
+            return (this.dim1 == 1);
+        }
+
+        public Boolean isZero()
+        {
+            for (int i = 0; i < this.Height; i++)
+                for (int j = 0; j < this.Width; j++)
+                    if (this[i, j] != 0)
+                        return false;
+            return true;
+        }
+
+        // calculate the determinant of this matrix. Supports any size
         public int determinant()
         {
             if ((this.Height != this.Width))
@@ -110,6 +149,12 @@ namespace Hill_Cipher
             return det;
         }
 
+        // check if this matrix can be inversed
+        public Boolean inversible()
+        {
+            return (this.determinant() != 0);
+        }
+
         private static Random _r = new Random(); // random number generator had better be static
 
         public static Matrix generateNewKey(int size)
@@ -129,27 +174,96 @@ namespace Hill_Cipher
             return newKey;
         }
 
-        // modular multiplicative inverse
-        public static int modInverse(int _a, int m)
+        public static Boolean operator ==(Matrix m1, Matrix m2)
         {
-            int a = _a % m;
-            for (int x = 0; x < m; x++)
-            {
-                if (modular((a * x), m) == 1) // according to the definition
-                {
-                    return x;
-                }
-            }
-            return -1; // couldn't find its modular multiplicative inverse
+            return (m1.ToString() == m2.ToString());
         }
 
-        // multiply matrix m1 by matrix m2 and return as a new matrix
-        // and modular by 26
-        // Shouldn't modify this matrix because it will be reused again and again
+        public static Boolean operator !=(Matrix m1, Matrix m2)
+        {
+            return (m1.ToString() != m2.ToString());
+        }
+
+        public static Matrix operator +(Matrix m1, Matrix m2)
+        {
+            return Add(m1, m2);
+        }
+
+        public static Matrix operator -(Matrix m1, Matrix m2)
+        {
+            return m1 + (m2 * -1);
+        }
+
+        public static Matrix operator -(Matrix m1)
+        {
+            return (m1 * -1);
+        }
+
+        public static Matrix operator *(Matrix m1, Matrix m2)
+        {
+            return Multiply(m1, m2);
+        }
+
+        public static Matrix operator *(Matrix m1, int scalar)
+        {
+            return Multiply(m1, scalar);
+        }
+
+        public static Matrix operator *(int scalar, Matrix m1)
+        {
+            return Multiply(m1, scalar);
+        }
+
+        public static Matrix operator /(Matrix m1, Matrix m2)
+        {
+            return Divide(m1, m2);
+        }
+
+        public static Matrix operator /(Matrix m1, int scalar)
+        {
+            return Divide(m1, scalar);
+        }
+
+        public static Matrix operator /(int scalar, Matrix m1)
+        {
+            return Divide(m1, scalar);
+        }
+
+        // Get the inverse matrix of m
+        public static Matrix operator ~(Matrix m)
+        {
+            return Matrix.Inverse(m);
+        }
+
+        // Return the sum of m1 and m2. They must be in the same size
+        public static Matrix Add(Matrix m1, Matrix m2)
+        {
+            if (m1.Width != m2.Width || m1.Height != m2.Height)
+            {
+                Exception e = new Exception("Two matrixes must be the same in size!");
+                throw e;
+            }
+
+            Matrix re = new Matrix(m1.Height, m2.Width);
+            for (int i = 0; i < re.Height; i++)
+            {
+                for (int j = 0; j < re.Width; j++)
+                {
+                    re[i, j] = m1[i, j] + m2[i, j];
+                }
+            }
+            re.ModularBy(26);
+            return re;
+        }
+
+        // Return the product of matrix m1 and m2.
         public static Matrix Multiply(Matrix m1, Matrix m2)
         {
             if (m1.Width != m2.Height) // wrong size
-                return null; 
+            {
+                Exception e = new Exception("First matrix's width must be equal with second matrix's height!");
+                throw e;
+            }
 
             Matrix re = new Matrix(m1.Height, m2.Width);
             for (int i = 0; i < re.Height; i++)
@@ -163,16 +277,43 @@ namespace Hill_Cipher
                     }
                 }
             }
-            //System.Windows.Forms.MessageBox.Show(re.String2Show());
             re.ModularBy(26);
-            //System.Windows.Forms.MessageBox.Show(re.String2Show());
             return re;
+        }
+
+        // Scalar multiply matrix m1 by scalar
+        public static Matrix Multiply(Matrix m1, int scalar)
+        {
+            Matrix re = new Matrix(m1.Height, m1.Width);
+            for (int i = 0; i < re.Height; i++)
+                for (int j = 0; j < re.Width; j++)
+                    re[i, j] = m1[i, j] * scalar;
+            re.ModularBy(26);
+            return re;
+        }
+
+        // Scalar multiply matrix m1 by 1/scalar
+        public static Matrix Divide(Matrix m1, int scalar)
+        {
+            return Multiply(m1, 1 / scalar);
+        }
+
+        // Calculate product of matrix m1 and the inverse matrix of m2.
+        public static Matrix Divide(Matrix m1, Matrix m2)
+        {
+            if (m1.Width != m2.Height || !m2.isSquare()) // wrong size
+            {
+                Exception e = new Exception("First matrix's width must be equal with second matrix's height AND the second matrix must be square!");
+                throw e;
+            }
+
+            return m1 * Matrix.Inverse(m2);
         }
 
         // Inverse matrix m (size 2x2) and return as a new matrix
         // Shouldn't modify this matrix because it will be reused again and again
         // see Cryptography and Network Security Principles and Practice, 5th Edition, page 46
-        public static Matrix InverseMatrix(Matrix m)
+        public static Matrix Inverse(Matrix m)
         {
             int size = m.Height;
             if (m.Height != m.Width)
@@ -209,7 +350,72 @@ namespace Hill_Cipher
                     int minorDet = minorMatrix.determinant();
                     re[i, j] = miDet * (int)Math.Pow(-1, i + j) * minorDet;
                 }
+            re.ModularBy(26);
             return re;
+        }
+
+        // reflect A over its main diagonal (which runs from top-left to bottom-right) to obtain A transpose
+        public static Matrix Transpose(Matrix m)
+        {
+            Matrix re = new Matrix(m.Width, m.Height);
+            for (int i = 0; i < re.Height; i++)
+                for (int j = 0; j < re.Width; j++)
+                    re[i, j] = m[j, i];
+            return re;
+        }
+
+        // Return a separated copy of matrix m
+        public static Matrix Duplicate(Matrix m)
+        {
+            Matrix re = new Matrix(m.Height, m.Width);
+            for (int i = 0; i < re.Height; i++)
+                for (int j = 0; j < re.Width; j++)
+                    re[i, j] = m[i, j];
+            return re;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (this.GetHashCode() == obj.GetHashCode());
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+
+        // create a string from this matrix
+        public override string ToString()
+        {
+            String re = "";
+            for (int i = 0; i < this.Height; i++)
+            {
+                for (int j = 0; j < this.Width; j++)
+                {
+                    re += Format(this[i, j]) + " ";
+                }
+                re += "\n";
+            }
+            return re;
+        }
+
+        private string Format(int n)
+        {
+            return String.Format("{0:0.###############}", n);
+        }
+
+        // modular multiplicative inverse
+        public static int modInverse(int _a, int m)
+        {
+            int a = _a % m;
+            for (int x = 0; x < m; x++)
+            {
+                if (modular((a * x), m) == 1) // according to the definition
+                {
+                    return x;
+                }
+            }
+            return -1; // couldn't find its modular multiplicative inverse
         }
 
         // The way C# modular number, while not wrong, is unsuitable for our purpose
@@ -228,26 +434,6 @@ namespace Hill_Cipher
             for (int i = 0; i < this.Height; i++)
                 for (int j = 0; j < this.Width; j++)
                     this[i, j] = modular(this[i, j], m);
-        }
-
-        // create a string from this matrix
-        public string String2Show()
-        {
-            String re = "";
-            for (int i = 0; i < this.Height; i++)
-            {
-                for (int j = 0; j < this.Width; j++)
-                {
-                    re += Format(this[i, j]) + " ";
-                }
-                re += "\n";
-            }
-            return re;
-        }
-
-        private string Format(int n)
-        {
-            return String.Format("{0:0.###############}", n);
         }
     }
 }
