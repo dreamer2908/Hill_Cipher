@@ -33,7 +33,7 @@ namespace Hill_Cipher
 
         public static string encryptText(string _plainText, Matrix key)
         {
-            if (!key.isSquare())
+            if (!key.isSquare)
                 return "";
             int keySize = key.Height;
             string plainText = preparePlainText(_plainText, keySize);
@@ -74,7 +74,7 @@ namespace Hill_Cipher
 
         public static string decryptText(string _cipherText, Matrix _key)
         {
-            if (!_key.isSquare())
+            if (!_key.isSquare)
                 return "";
             // The only difference between encrypting and decrypting is the key
             // Inverse the key, give it to the encrypt function and we got a decrypt function

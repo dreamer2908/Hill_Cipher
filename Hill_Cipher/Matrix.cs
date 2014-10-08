@@ -68,91 +68,103 @@ namespace Hill_Cipher
         }
 
         // A key is usable if its determinant is not zero, and not divisible by both 2 and 13
-        public Boolean isUsable()
+        public Boolean isUsable
         {
-            int det = this.determinant();
-            return ((det != 0 && det % 2 != 0 && det % 13 != 0) && (this.Width == this.Height));
+            get
+            {
+                int det = this.determinant;
+                return ((det != 0 && det % 2 != 0 && det % 13 != 0) && (this.Width == this.Height));
+            }
         }
         // its size should be 2x2, too
-        public Boolean isUsable2x2()
+        public Boolean isUsable2x2
         {
-            if (this.Width == 2 && this.Height == 2)
+            get
             {
-                return this.isUsable();
+                if (this.Width == 2 && this.Height == 2)
+                {
+                    return this.isUsable;
+                }
+                return false;
             }
-            return false;
         }
 
-        public Boolean isSquare()
+        public Boolean isSquare
         {
-            return (this.Height == this.Width);
+            get { return (this.Height == this.Width); }
         }
 
-        public Boolean isColumn()
+        public Boolean isColumn
         {
-            return (this.dim2 == 1);
+            get { return (this.dim2 == 1); }
         }
 
-        public Boolean isRow()
+        public Boolean isRow
         {
-            return (this.dim1 == 1);
+            get { return (this.dim1 == 1); }
         }
 
-        public Boolean isZero()
+        public Boolean isZero
         {
-            for (int i = 0; i < this.Height; i++)
-                for (int j = 0; j < this.Width; j++)
-                    if (this[i, j] != 0)
-                        return false;
-            return true;
+            get
+            {
+                for (int i = 0; i < this.Height; i++)
+                    for (int j = 0; j < this.Width; j++)
+                        if (this[i, j] != 0)
+                            return false;
+                return true;
+            }
         }
 
         // calculate the determinant of this matrix. Supports any size
-        public int determinant()
+        public int determinant
         {
-            if ((this.Height != this.Width))
+            get
             {
-                Exception e = new Exception("Matrix must be square!");
-                throw e;
-            }
-
-            // see https://en.wikipedia.org/wiki/Determinant
-            // and http://ctec.tvu.edu.vn/ttkhai/TCC/63_Dinh_thuc.htm
-            // and http://mathworld.wolfram.com/Determinant.html
-            // Using recursive implemention
-            int det = 0;
-            int n = this.Height;
-
-            if (n == 1)
-            {
-                return this[0, 0];
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                // copy everything but row i column j to create minorMatrix
-                Matrix minorMatrix = new Matrix(n - 1, n - 1);
-                for (int x = 0; x < n - 1; x++)
+                if ((this.Height != this.Width))
                 {
-                    int r = (x < 1) ? x : x + 1;
-                    for (int y = 0; y < n - 1; y++)
-                    {
-                        int c = (y < j) ? y : y + 1;
-                        minorMatrix[x, y] = this[r, c];
-                    }
+                    Exception e = new Exception("Matrix must be square!");
+                    throw e;
                 }
-                int minorDet = minorMatrix.determinant();
-                int cofactor = (int)Math.Pow(-1, 1 + j) * minorDet;
-                det = det + cofactor * this[1, j];
-            }
 
-            return det;
+                // see https://en.wikipedia.org/wiki/Determinant
+                // and http://ctec.tvu.edu.vn/ttkhai/TCC/63_Dinh_thuc.htm
+                // and http://mathworld.wolfram.com/Determinant.html
+                // Using recursive implemention
+                int det = 0;
+                int n = this.Height;
+
+                if (n == 1)
+                {
+                    return this[0, 0];
+                }
+
+                for (int j = 0; j < n; j++)
+                {
+                    // copy everything but row i column j to create minorMatrix
+                    Matrix minorMatrix = new Matrix(n - 1, n - 1);
+                    for (int x = 0; x < n - 1; x++)
+                    {
+                        int r = (x < 1) ? x : x + 1;
+                        for (int y = 0; y < n - 1; y++)
+                        {
+                            int c = (y < j) ? y : y + 1;
+                            minorMatrix[x, y] = this[r, c];
+                        }
+                    }
+                    int minorDet = minorMatrix.determinant;
+                    int cofactor = (int)Math.Pow(-1, 1 + j) * minorDet;
+                    det = det + cofactor * this[1, j];
+                }
+
+                return det;
+            }
         }
 
         // check if this matrix can be inversed
-        public Boolean inversible()
+        public Boolean inversible
         {
-            return (this.determinant() != 0);
+            get { return (this.determinant != 0); }
         }
 
         private static Random _r = new Random(); // random number generator had better be static
@@ -163,7 +175,7 @@ namespace Hill_Cipher
             // usually got one after one or two attempts
             Matrix newKey = new Matrix(size, size);
             // int count = 0;
-            while (!newKey.isUsable())
+            while (!newKey.isUsable)
             {
                 // count += 1;
                 for (int i = 0; i < size; i++)
@@ -301,7 +313,7 @@ namespace Hill_Cipher
         // Calculate product of matrix m1 and the inverse matrix of m2.
         public static Matrix Divide(Matrix m1, Matrix m2)
         {
-            if (m1.Width != m2.Height || !m2.isSquare()) // wrong size
+            if (m1.Width != m2.Height || !m2.isSquare) // wrong size
             {
                 Exception e = new Exception("First matrix's width must be equal with second matrix's height AND the second matrix must be square!");
                 throw e;
@@ -321,14 +333,14 @@ namespace Hill_Cipher
                 Exception e = new Exception("Matrix must be square!");
                 throw e;
             }
-            if (!m.isUsable()) // so not inversible 
+            if (!m.isUsable) // so not inversible
             {
                 // still return for the sake of simplicity
                 // Zero matrix * any matrix = zero matrix
                 return Matrix.zero(size);
             }
 
-            int det = m.determinant();
+            int det = m.determinant;
             int miDet = (int)modInverse(det, 26);
 
             Matrix re = new Matrix(size, size);
@@ -347,7 +359,7 @@ namespace Hill_Cipher
                             minorMatrix[x, y] = m[r, c];
                         }
                     }
-                    int minorDet = minorMatrix.determinant();
+                    int minorDet = minorMatrix.determinant;
                     re[i, j] = miDet * (int)Math.Pow(-1, i + j) * minorDet;
                 }
             re.ModularBy(26);

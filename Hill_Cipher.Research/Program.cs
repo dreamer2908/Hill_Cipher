@@ -36,7 +36,7 @@ namespace Hill_Cipher.Research
                             key[0, 1] = k2;
                             key[1, 0] = k3;
                             key[1, 1] = k4;
-                            Boolean conditionMet = key.isUsable2x2();
+                            Boolean conditionMet = key.isUsable2x2;
                             string cipherText = Hill_Cipher.HillCipher.encryptText(plainText, key);
                             string _plainText = Hill_Cipher.HillCipher.decryptText(cipherText, key);
                             Boolean decryptable = (plainText == _plainText);

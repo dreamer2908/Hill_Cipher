@@ -86,7 +86,7 @@ namespace Hill_Cipher.Test
             m[0, 1] = k2;
             m[1, 0] = k3;
             m[1, 1] = k4;
-            Assert.AreEqual(expected, m.isUsable2x2());
+            Assert.AreEqual(expected, m.isUsable2x2);
         }
 
         [TestCase(17, 17, 5, 21, 18, 21, 2, 2, 19, true)]
@@ -103,7 +103,7 @@ namespace Hill_Cipher.Test
             m1[2, 0] = m1_20;
             m1[2, 1] = m1_21;
             m1[2, 2] = m1_22;
-            Assert.AreEqual(expected, m1.isUsable());
+            Assert.AreEqual(expected, m1.isUsable);
         }
         #endregion
 
@@ -112,7 +112,7 @@ namespace Hill_Cipher.Test
         public void generateNewKey_None_ReturnsAUsableKey()
         {
             Matrix newKey = Matrix.generateNewKey(2);
-            Assert.AreEqual(true, newKey.isUsable2x2());
+            Assert.AreEqual(true, newKey.isUsable2x2);
         }
         #endregion
         
@@ -184,7 +184,7 @@ namespace Hill_Cipher.Test
             Matrix zeroM = Matrix.zero(2);
             Matrix re = Matrix.Inverse(m1);
             Matrix product = Matrix.Multiply(m1, re);
-            if (m1.isUsable()) // inversible
+            if (m1.isUsable) // inversible
             {
                 Assert.AreEqual(product.ToString(), unitM.ToString());
             }
@@ -217,7 +217,7 @@ namespace Hill_Cipher.Test
             Matrix unitM = Matrix.unit(3);
             Matrix zeroM = Matrix.zero(3);
             Matrix product = m1 * re;
-            if (m1.isUsable()) // inversible
+            if (m1.isUsable) // inversible
             {
                 Assert.AreEqual(product.ToString(), unitM.ToString());
             }
@@ -254,7 +254,7 @@ namespace Hill_Cipher.Test
             Matrix unitM = Matrix.unit(4);
             Matrix zeroM = Matrix.zero(4);
             Matrix product = m1 * re;
-            if (m1.isUsable()) // inversible
+            if (m1.isUsable) // inversible
             {
                 Assert.AreEqual(product.ToString(), unitM.ToString());
             }
@@ -286,7 +286,7 @@ namespace Hill_Cipher.Test
             m2[1, 0] = m2_10;
             m2[1, 1] = m2_11;
             int expected = m2[0, 0] * m2[1, 1] - m2[0, 1] * m2[1, 0];
-            Assert.AreEqual(expected, m2.determinant());
+            Assert.AreEqual(expected, m2.determinant);
         }
 
         [TestCase(-2, 2, -3, -1, 1, 3, 2, 0, -1, 18)]
@@ -308,7 +308,7 @@ namespace Hill_Cipher.Test
             m1[2, 0] = m1_20;
             m1[2, 1] = m1_21;
             m1[2, 2] = m1_22;
-            Assert.AreEqual(expected, m1.determinant());
+            Assert.AreEqual(expected, m1.determinant);
         }
 
         [TestCase(9, 3, 5, 1, -6, -9, 7, 2, -1, -8, 1, 3, 9, 3, 5, 0, -615)]
@@ -333,7 +333,7 @@ namespace Hill_Cipher.Test
             m1[3, 1] = m1_31;
             m1[3, 2] = m1_32;
             m1[3, 3] = m1_33;
-            Assert.AreEqual(expected, m1.determinant());
+            Assert.AreEqual(expected, m1.determinant);
         }
     #endregion
 

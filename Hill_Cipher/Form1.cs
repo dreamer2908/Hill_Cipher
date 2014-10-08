@@ -103,7 +103,7 @@ namespace Hill_Cipher
             // get the encryption key
             Matrix key = getCurrentKey();
             int keySize = key.Height;
-            if (!key.isUsable())
+            if (!key.isUsable)
             {
                 MessageBox.Show("This key is NOT usable in " + keySize.ToString() + "x" + keySize.ToString() + " Hill cipher! If you encrypt your message \nwith this key and send it, it canNOT be decrypted even if the receiver has the key! \nPlease click \"New key\" to get a good key!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -134,7 +134,7 @@ namespace Hill_Cipher
             // get the encryption key
             Matrix key = getCurrentKey();
             int keySize = key.Height;
-            if (!key.isUsable())
+            if (!key.isUsable)
             {
                 MessageBox.Show("This key is NOT usable in " + keySize.ToString() + "x" + keySize.ToString() + " Hill cipher! Your message canNOT be decrypted sucessfully with this key. Are you sure you input the correct key?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -209,7 +209,7 @@ namespace Hill_Cipher
         {
             Matrix key = getCurrentKey();
             int keySize = key.Height;
-            if (key.isUsable())
+            if (key.isUsable)
             {
                 MessageBox.Show("This key is suitable for " + keySize.ToString() + "x" + keySize.ToString() + " Hill cipher. All good!", "Check key", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
