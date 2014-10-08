@@ -162,7 +162,7 @@ namespace Hill_Cipher
         }
 
         // check if this matrix can be inversed
-        public Boolean inversible
+        public Boolean invertible
         {
             get { return (this.determinant != 0); }
         }
@@ -333,7 +333,7 @@ namespace Hill_Cipher
                 Exception e = new Exception("Matrix must be square!");
                 throw e;
             }
-            if (!m.isUsable) // so not inversible
+            if (!m.isUsable) // so not invertible
             {
                 // still return for the sake of simplicity
                 // Zero matrix * any matrix = zero matrix

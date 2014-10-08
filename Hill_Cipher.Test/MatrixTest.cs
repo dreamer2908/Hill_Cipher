@@ -184,11 +184,11 @@ namespace Hill_Cipher.Test
             Matrix zeroM = Matrix.zero(2);
             Matrix re = Matrix.Inverse(m1);
             Matrix product = Matrix.Multiply(m1, re);
-            if (m1.isUsable) // inversible
+            if (m1.isUsable) // invertible
             {
                 Assert.AreEqual(product.ToString(), unitM.ToString());
             }
-            else // return zero matrix if it's not inversible
+            else // return zero matrix if it's not invertible
             {
                 Assert.AreEqual(re.ToString(), zeroM.ToString()); 
             }
@@ -217,11 +217,11 @@ namespace Hill_Cipher.Test
             Matrix unitM = Matrix.unit(3);
             Matrix zeroM = Matrix.zero(3);
             Matrix product = m1 * re;
-            if (m1.isUsable) // inversible
+            if (m1.isUsable) // invertible
             {
                 Assert.AreEqual(product.ToString(), unitM.ToString());
             }
-            else // return zero matrix if it's not inversible
+            else // return zero matrix if it's not invertible
             {
                 Assert.AreEqual(re.ToString(), zeroM.ToString());
             }
@@ -254,11 +254,11 @@ namespace Hill_Cipher.Test
             Matrix unitM = Matrix.unit(4);
             Matrix zeroM = Matrix.zero(4);
             Matrix product = m1 * re;
-            if (m1.isUsable) // inversible
+            if (m1.isUsable) // invertible
             {
                 Assert.AreEqual(product.ToString(), unitM.ToString());
             }
-            else // return zero matrix if it's not inversible
+            else // return zero matrix if it's not invertible
             {
                 Assert.AreEqual(re.ToString(), zeroM.ToString());
             }
