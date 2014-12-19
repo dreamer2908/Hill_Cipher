@@ -6,7 +6,7 @@ namespace Hill_Cipher
 {
     class HillCipher
     {
-        public static Boolean useRowMsgVector = false;
+        public static Boolean useRowMsgVector = true;
 
         private static string removeNonAlphaChars(string _text)
         {

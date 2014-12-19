@@ -13,6 +13,7 @@ namespace Hill_Cipher
         public Form1()
         {
             InitializeComponent();
+            rbtnMessageRowVector.Checked = true;
             getNewKey();
             //numKey00.Value = 10;
             //numKey01.Value = 3;
@@ -224,26 +225,24 @@ namespace Hill_Cipher
             decryptText();
         }
 
+        private void btnEncrypt_Click(object sender, EventArgs e)
+        {
+            encryptText();
+        }
+
         private void btnNewKey_Click(object sender, EventArgs e)
         {
             getNewKey();
         }
 
-        private void btnEncrypt_MouseUp(object sender, MouseEventArgs e)
+        private void rbtnMessageRowVector_CheckedChanged(object sender, EventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                encryptText();
-            }
-            else
-            {
-                String message = "You are about to switch to the row message vector mode, \nwhich produces different results than the column vector mode. \nAre you sure?";
-                if (HillCipher.useRowMsgVector)
-                    message = "You are about to switch to the column message vector mode, \nwhich produces different results than the row vector mode. \nAre you sure?";
-                DialogResult re = MessageBox.Show(message, "Switch message vector mode", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (re == DialogResult.OK)
-                    HillCipher.useRowMsgVector = !HillCipher.useRowMsgVector;
-            }
+            HillCipher.useRowMsgVector = rbtnMessageRowVector.Checked;
+        }
+
+        private void rbtnMessageColumnVector_CheckedChanged(object sender, EventArgs e)
+        {
+            HillCipher.useRowMsgVector = !rbtnMessageColumnVector.Checked;
         }
     }
 }

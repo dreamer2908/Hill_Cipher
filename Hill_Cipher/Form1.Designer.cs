@@ -48,6 +48,10 @@
             this.numKey01 = new System.Windows.Forms.NumericUpDown();
             this.numKey00 = new System.Windows.Forms.NumericUpDown();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.rbtnMessageRowVector = new System.Windows.Forms.RadioButton();
+            this.rbtnMessageColumnVector = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -57,6 +61,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numKey10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numKey01)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numKey00)).BeginInit();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtPlainText
@@ -65,7 +70,7 @@
             this.txtPlainText.Location = new System.Drawing.Point(3, 16);
             this.txtPlainText.Multiline = true;
             this.txtPlainText.Name = "txtPlainText";
-            this.txtPlainText.Size = new System.Drawing.Size(470, 85);
+            this.txtPlainText.Size = new System.Drawing.Size(470, 94);
             this.txtPlainText.TabIndex = 0;
             this.txtPlainText.Text = "WEHAVENOTYETDISCUSSEDTWOCOMPLICATIONSTHATEXISTINPICKINGTHEENCRYPTINGMATRIX";
             // 
@@ -74,6 +79,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 208F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.groupBox5, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 2);
@@ -81,11 +87,12 @@
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 85F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(482, 306);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(482, 366);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // groupBox2
@@ -93,10 +100,10 @@
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox2, 2);
             this.groupBox2.Controls.Add(this.txtCipherText);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 113);
+            this.groupBox2.Location = new System.Drawing.Point(3, 122);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(476, 104);
-            this.groupBox2.TabIndex = 6;
+            this.groupBox2.Size = new System.Drawing.Size(476, 113);
+            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Cipher text";
             // 
@@ -106,7 +113,7 @@
             this.txtCipherText.Location = new System.Drawing.Point(3, 16);
             this.txtCipherText.Multiline = true;
             this.txtCipherText.Name = "txtCipherText";
-            this.txtCipherText.Size = new System.Drawing.Size(470, 85);
+            this.txtCipherText.Size = new System.Drawing.Size(470, 94);
             this.txtCipherText.TabIndex = 1;
             // 
             // groupBox1
@@ -116,8 +123,8 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(476, 104);
-            this.groupBox1.TabIndex = 2;
+            this.groupBox1.Size = new System.Drawing.Size(476, 113);
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Plain text";
             // 
@@ -128,10 +135,10 @@
             this.groupBox3.Controls.Add(this.btnDecrypt);
             this.groupBox3.Controls.Add(this.btnEncrypt);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(3, 223);
+            this.groupBox3.Location = new System.Drawing.Point(3, 241);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(202, 80);
-            this.groupBox3.TabIndex = 4;
+            this.groupBox3.Size = new System.Drawing.Size(202, 79);
+            this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Command";
             // 
@@ -180,7 +187,7 @@
             this.btnEncrypt.Text = "&Encrypt";
             this.toolTip1.SetToolTip(this.btnEncrypt, "Right click to switch between column and row message vector mode");
             this.btnEncrypt.UseVisualStyleBackColor = true;
-            this.btnEncrypt.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnEncrypt_MouseUp);
+            this.btnEncrypt.Click += new System.EventHandler(this.btnEncrypt_Click);
             // 
             // groupBox4
             // 
@@ -192,10 +199,10 @@
             this.groupBox4.Controls.Add(this.numKey01);
             this.groupBox4.Controls.Add(this.numKey00);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(211, 223);
+            this.groupBox4.Location = new System.Drawing.Point(211, 241);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(268, 80);
-            this.groupBox4.TabIndex = 5;
+            this.groupBox4.Size = new System.Drawing.Size(268, 79);
+            this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Key";
             // 
@@ -206,7 +213,7 @@
             this.rbtnKeySelect2.Location = new System.Drawing.Point(153, 36);
             this.rbtnKeySelect2.Name = "rbtnKeySelect2";
             this.rbtnKeySelect2.Size = new System.Drawing.Size(14, 13);
-            this.rbtnKeySelect2.TabIndex = 12;
+            this.rbtnKeySelect2.TabIndex = 11;
             this.rbtnKeySelect2.UseVisualStyleBackColor = true;
             // 
             // rbtnKeySelect
@@ -217,7 +224,7 @@
             this.rbtnKeySelect.Location = new System.Drawing.Point(115, 34);
             this.rbtnKeySelect.Name = "rbtnKeySelect";
             this.rbtnKeySelect.Size = new System.Drawing.Size(34, 17);
-            this.rbtnKeySelect.TabIndex = 11;
+            this.rbtnKeySelect.TabIndex = 10;
             this.rbtnKeySelect.TabStop = true;
             this.rbtnKeySelect.Text = "or";
             this.rbtnKeySelect.UseVisualStyleBackColor = true;
@@ -230,7 +237,7 @@
             this.txtKey.Name = "txtKey";
             this.txtKey.ReadOnly = true;
             this.txtKey.Size = new System.Drawing.Size(75, 20);
-            this.txtKey.TabIndex = 10;
+            this.txtKey.TabIndex = 12;
             this.txtKey.Text = "EHBC";
             this.txtKey.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtKey.Leave += new System.EventHandler(this.txtKey_Leave);
@@ -311,13 +318,64 @@
             0});
             this.numKey00.ValueChanged += new System.EventHandler(this.numKey00_ValueChanged);
             // 
+            // groupBox5
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.groupBox5, 2);
+            this.groupBox5.Controls.Add(this.rbtnMessageColumnVector);
+            this.groupBox5.Controls.Add(this.rbtnMessageRowVector);
+            this.groupBox5.Controls.Add(this.label1);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Location = new System.Drawing.Point(3, 326);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(476, 37);
+            this.groupBox5.TabIndex = 4;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Settings";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(20, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(188, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Express the plaintext and ciphertext as";
+            // 
+            // rbtnMessageRowVector
+            // 
+            this.rbtnMessageRowVector.AutoSize = true;
+            this.rbtnMessageRowVector.Checked = true;
+            this.rbtnMessageRowVector.Location = new System.Drawing.Point(214, 14);
+            this.rbtnMessageRowVector.Name = "rbtnMessageRowVector";
+            this.rbtnMessageRowVector.Size = new System.Drawing.Size(80, 17);
+            this.rbtnMessageRowVector.TabIndex = 13;
+            this.rbtnMessageRowVector.TabStop = true;
+            this.rbtnMessageRowVector.Text = "row vectors";
+            this.toolTip1.SetToolTip(this.rbtnMessageRowVector, "Express the plaintext and ciphertext as row vectors like in \r\nCryptography and Ne" +
+                    "twork Security: Principles and Practice, \r\n5th edition, William Stallings.");
+            this.rbtnMessageRowVector.UseVisualStyleBackColor = true;
+            this.rbtnMessageRowVector.CheckedChanged += new System.EventHandler(this.rbtnMessageRowVector_CheckedChanged);
+            // 
+            // rbtnMessageColumnVector
+            // 
+            this.rbtnMessageColumnVector.AutoSize = true;
+            this.rbtnMessageColumnVector.Location = new System.Drawing.Point(300, 14);
+            this.rbtnMessageColumnVector.Name = "rbtnMessageColumnVector";
+            this.rbtnMessageColumnVector.Size = new System.Drawing.Size(97, 17);
+            this.rbtnMessageColumnVector.TabIndex = 14;
+            this.rbtnMessageColumnVector.Text = "column vectors";
+            this.toolTip1.SetToolTip(this.rbtnMessageColumnVector, "Express the plaintext and ciphertext as column vectors like in \r\nElementary Numbe" +
+                    "r Theory and its applications, \r\nAddison Wesley Longman.");
+            this.rbtnMessageColumnVector.UseVisualStyleBackColor = true;
+            this.rbtnMessageColumnVector.CheckedChanged += new System.EventHandler(this.rbtnMessageColumnVector_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 306);
+            this.ClientSize = new System.Drawing.Size(482, 366);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.MinimumSize = new System.Drawing.Size(490, 340);
+            this.MinimumSize = new System.Drawing.Size(490, 400);
             this.Name = "Form1";
             this.Text = "Hill Cipher";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -332,6 +390,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numKey10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numKey01)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numKey00)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -357,6 +417,10 @@
         private System.Windows.Forms.Button btnNewKey;
         private System.Windows.Forms.Button btnCheckKey;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton rbtnMessageColumnVector;
+        private System.Windows.Forms.RadioButton rbtnMessageRowVector;
+        private System.Windows.Forms.Label label1;
     }
 }
 
